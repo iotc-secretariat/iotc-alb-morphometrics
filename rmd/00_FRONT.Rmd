@@ -1,0 +1,26 @@
+
+## Authors' affiliations
+
+^1^ Research Institute for Sustainable Development (IRD), Victoria, Mahé, Seychelles
+
+^2^ Indian Ocean Tuna Commission (IOTC) (present affiliation)
+
+^3^ Seychelles Fishing Authority (SFA), Victoria, Mahé, Seychelles
+
+^4^ Centre de Recherches Océanologiques (CRO), Abidjan, Côte d'Ivoire
+
+^5^ IEO, Centro Oceanográfico de Canarias, Santa Cruz de Tenerife, Spain
+
+^6^ IEO, Centro Oceanográfico de Málaga, Fuengirola, Málaga, Spain
+
+^7^ Universidad Autónoma de Chile, Facultad de Ciencias de la Salud, Santiago de Chile, Chile
+
+\(^\dagger\) Corresponding author: [Julien.Lebranchu@ird.fr](Julien.Lebranchu@ird.fr)
+
+## Abstract
+
+_This is the abstract_
+
+**Keywords:** eastern Atlantic Ocean, length-weight relationships; tuna fisheries; Western Indian Ocean
+
+<!-- \pagebreak -->
