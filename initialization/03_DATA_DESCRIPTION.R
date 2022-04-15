@@ -1,31 +1,6 @@
 
 # SCATTERPLOTS ####
 
-## GEAR GROUP ####
-
-COLORS_FISHERY_GROUPS = rbindlist(lapply(list("LL", "PS", "BB"), colors_for_fishery_group))
-
-MORPHOMETRIC_DATA_ALB_FL_RD_GEAR_GROUP =
-  ggplot(MORPHOMETRICS_TABLE, aes(x = FL, y = RD, color = FISHERY_GROUP)) +
-  geom_point(alpha = 0.4) +
-  scale_color_manual(values = COLORS_FISHERY_GROUPS$FILL) +
-  labs(x = "Fork length (cm)", y = "Round weight (kg)") +
-  theme_bw() +
-  theme(legend.position = "bottom", legend.title = element_blank())
-
-save_plot("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_GEAR_GROUP.png", MORPHOMETRIC_DATA_ALB_FL_RD_GEAR_GROUP, 8, 6)
-
-MORPHOMETRIC_DATA_ALB_FL_RD_GEAR_GROUP_FACETED =
-  ggplot(MORPHOMETRICS_TABLE, aes(x = FL, y = RD, color = SOURCE)) +
-  geom_point(alpha = 0.4) +
-  labs(x = "Fork length (cm)", y = "Round weight (kg)") +
-  theme_bw() +
-  theme(legend.position = "bottom", legend.title = element_blank()) +
-  theme(strip.background = element_rect(colour = "black", fill = "white"), strip.text = element_text(size = 12)) +
-  facet_wrap(~SOURCE)
-
-save_plot("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_GEAR_GROUP_FACETED.png", MORPHOMETRIC_DATA_ALB_FL_RD_GEAR_GROUP_FACETED, 8, 6)
-
 ## SOURCE ####
 
 COLORS_SOURCES = data.table(RFMO = c("Ifremer", "MUS University-IRD", "IOTC-HISTORICAL", "IOTC ROS"), FILL = pal_simpsons(alpha = 0.6)(4), OUTLINE = darken(pal_simpsons(alpha = 0.6)(4), 0.2))
@@ -51,6 +26,32 @@ MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE_FACETED =
   facet_wrap(~SOURCE)
 
 save_plot("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE_FACETED.png", MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE_FACETED, 8, 6)
+
+## FISHERY GROUP ####
+
+COLORS_FISHERY_GROUPS = rbindlist(lapply(list("LL", "PS", "BB"), colors_for_fishery_group))
+
+MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP =
+  ggplot(MORPHOMETRICS_TABLE, aes(x = FL, y = RD, color = FISHERY_GROUP)) +
+  geom_point(alpha = 0.4) +
+  scale_color_manual(values = COLORS_FISHERY_GROUPS$FILL) +
+  labs(x = "Fork length (cm)", y = "Round weight (kg)") +
+  theme_bw() +
+  theme(legend.position = "bottom", legend.title = element_blank())
+
+save_plot("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP.png", MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP, 8, 6)
+
+MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP_FACETED =
+  ggplot(MORPHOMETRICS_TABLE, aes(x = FL, y = RD, color = FISHERY_GROUP)) +
+  geom_point(alpha = 0.4) +
+  scale_color_manual(values = COLORS_FISHERY_GROUPS$FILL) +
+  labs(x = "Fork length (cm)", y = "Round weight (kg)") +
+  theme_bw() +
+  theme(legend.position = "bottom", legend.title = element_blank()) +
+  theme(strip.background = element_rect(colour = "black", fill = "white"), strip.text = element_text(size = 12)) +
+  facet_wrap(~FISHERY_GROUP)
+
+save_plot("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP_FACETED.png", MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP_FACETED, 8, 4)
 
 ## SEX ####
 
@@ -117,20 +118,46 @@ ggsave("../outputs/charts/DESCRIPTION/SAMPLES_MAP.png", SAMPLES_MAP, width = 12,
 
 # SAMPLING DESIGN ####
 
-# SAMPLING_DESIGN_TABLE = TUNA_SAMPLES[, .(N = length(unique(organism_identifier)), LD = paste(min(round(first_dorsal_length), na.rm = TRUE), max(round(first_dorsal_length), na.rm = TRUE), sep = "-"), LF = paste(min(round(fork_length), na.rm = TRUE), max(round(fork_length), na.rm = TRUE), sep = "-"), WR = paste(min(round(whole_weight_kg, 1), na.rm = TRUE), max(round(whole_weight_kg, 1), na.rm = TRUE), sep = "-")), keyby = .(Ocean = ocean, `Species code` = species_code_fao, `Species name` = species_english_name)]
-# 
-# SAMPLING_DESIGN_TABLE_FT =
-#   SAMPLING_DESIGN_TABLE %>% 
-#   flextable() %>%
-#   merge_at(i = 1:3, j = "Ocean", part = "body") %>%
-#   merge_at(i = 4:6, j = "Ocean", part = "body") %>%
-#   hline(i = 3, border = fp_border(width = 1)) %>%
-#   compose(part = "header", j = "LD", value = as_paragraph("L", as_sub("D"))) %>%
-#   compose(part = "header", j = "LF", value = as_paragraph("L", as_sub("F"))) %>%
-#   compose(part = "header", j = "WR", value = as_paragraph("W", as_sub("R"))) %>%
-#   align(part = "header", j = 4:7, align = "center") %>%
-#   align(part = "body", j = 4:7, align = "right") %>%
-#   autofit() %>%
-#   fix_border_issues()
+# Assign area to each fish when spatial information is available
+
+MORPHOMETRICS_TABLE_SF = st_as_sf(MORPHOMETRICS_TABLE[!is.na(LONG)], coords = c("LONG", "LAT"), crs = st_crs(4326))
+MORPHOMETRICS_TABLE_SF = st_join(MORPHOMETRICS_TABLE_SF, ALB_SA_AREAS)
+MORPHOMETRICS_TABLE_DT = as.data.table(MORPHOMETRICS_TABLE_SF)[, -c("geometry")] 
+MORPHOMETRICS_TABLE_DT[, QUARTER := quarter(CAPTURE_DATE_START)]
+MORPHOMETRICS_TABLE_DT[is.na(CODE), CODE := "OUTSIDE"]
+
+SAMPLING_DESIGN_TABLE = MORPHOMETRICS_TABLE_DT[, .(N = length(unique(FISH_IDENTIFIER)), FL = paste(min(round(FL), na.rm = TRUE), max(round(FL), na.rm = TRUE), sep = "-"), RD = paste(min(round(RD, 1), na.rm = TRUE), max(round(RD, 1), na.rm = TRUE), sep = "-")), keyby = .(`Assessment area` = CODE, Quarter = QUARTER)]
+
+#SAMPLING_DESIGN_TABLE[is.na(`Assessment area`), `Assessment area` := "Outside areas"]
+
+SAMPLING_DESIGN_TABLE_FT =
+  SAMPLING_DESIGN_TABLE[!is.na(`Assessment area`)] %>%
+  flextable() %>%
+  compose(part = "header", j = "FL", value = as_paragraph("L", as_sub("F"))) %>%
+  compose(part = "header", j = "RD", value = as_paragraph("W", as_sub("R"))) %>%
+  align(part = "header", align = "center") %>%
+  align(part = "body", j = 2:5, align = "right") %>%
+  autofit() %>%
+  fix_border_issues()
+
+MORPHOMETRIC_DATA_ALB_FL_RD_AREA_FACETED =
+  ggplot(MORPHOMETRICS_TABLE_DT, aes(x = FL, y = RD, color = CODE)) +
+  geom_point(alpha = 0.4) +
+  labs(x = "Fork length (cm)", y = "Round weight (kg)") +
+  theme_bw() +
+  theme(legend.position = "bottom", legend.title = element_blank()) +
+  theme(strip.background = element_rect(colour = "black", fill = "white"), strip.text = element_text(size = 12)) +
+  facet_wrap(~CODE)
+
+save_plot("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_AREA_FACETED.png", MORPHOMETRIC_DATA_ALB_FL_RD_AREA_FACETED, 8, 6)
+
+MORPHOMETRIC_DATA_ALB_FL_RD_AREA =
+  ggplot(MORPHOMETRICS_TABLE_DT, aes(x = FL, y = RD, color = CODE)) +
+  geom_point(alpha = 0.4) +
+  labs(x = "Fork length (cm)", y = "Round weight (kg)") +
+  theme_bw() +
+  theme(legend.position = "bottom", legend.title = element_blank())
+
+save_plot("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_AREA.png", MORPHOMETRIC_DATA_ALB_FL_RD_AREA, 8, 6)
 
 

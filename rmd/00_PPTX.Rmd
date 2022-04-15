@@ -1,0 +1,67 @@
+---
+title: "Review of information available on fork length - round weight for Indian Ocean albacore"
+subtitle: "Data preparatory meeting of the 8^th^ session of the IOTC Working Party on Temperate Tuna - April 13^th^ - 15^th^ 2022"
+author: "[IOTC Secretariat](mailto:IOTC-Secretariat@fao.org)"
+---
+  
+```{r general_options, echo = FALSE}
+knitr::opts_chunk$set(echo = FALSE, tidy.opts = list(width.cutoff = 60), tidy = TRUE, size = "small", fig.width = 12, fig.height = 6.75)
+knit_hooks$set(inline = function(x) {prettyNum(x, big.mark = ",")})
+```
+
+```{r SourceFaceted, fig.cap = "Relationship between fork length (cm) and round weight (kg) by source of information"}
+include_graphics('../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE_FACETED.png')
+```
+
+```{r Source, fig.cap = "Relationship between fork length (cm) and round weight (kg) for all sources of information combined"}
+include_graphics('../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE.png')
+```
+
+```{r FisheryGroupFaceted, fig.cap = "Relationship between fork length (cm) and round weight (kg) by fishery group"}
+include_graphics('../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP_FACETED.png')
+```
+
+```{r FisheryGroup, fig.cap = "Relationship between fork length (cm) and round weight (kg) for all fishery groups combined"}
+include_graphics('../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP.png')
+```
+
+```{r SexFaceted, fig.cap = "Relationship between fork length (cm) and round weight (kg) by sex"}
+include_graphics('../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_SEX_FACETED.png')
+```
+
+```{r Sex, fig.cap = "Relationship between fork length (cm) and round weight (kg) for all sexes combined"}
+include_graphics('../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_SEX.png')
+```
+
+```{r SamplesMap, fig.cap = "Distribution of the samples across the Indian Ocean"}
+include_graphics("../outputs/charts/DESCRIPTION/SAMPLES_MAP.png")
+```
+
+```{r SamplingDesignTable, tab.cap = ""}
+SAMPLING_DESIGN_TABLE_FT
+```
+
+```{r AreaFaceted, fig.cap = "Relationship between fork length (cm) and round weight (kg) by area"}
+include_graphics('../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_AREA_FACETED.png')
+```
+
+```{r Area, fig.cap = "Relationship between fork length (cm) and round weight (kg) for all sexes combined"}
+include_graphics('../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_AREA.png')
+```
+
+---
+
+## Conclusions
+
+- Major interest to collate and manage the morphometric data at the Secretariat:
+    + To increase sample size and coverage
+    + To identify gaps and future sampling
+    + To archive and disseminate the information
+- More than 12,000 samples available for the fork length - round weight relationship
+- More than 9,000 samples reported from Japanese longliners where the length code is unknown
+- Apparent effects of area, gear, and/or sex
+- Lack of samples in the main fishing grounds: Call for observer data from fleets of Taiwan,China and China mainland
+- Collaborative work with a github repository set up: Who wants to contribute?
+
+---
+
