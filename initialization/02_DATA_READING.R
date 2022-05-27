@@ -1,17 +1,5 @@
 print("Read morphometric data...")
 
-# Table of FL-RD parameters for ALB ####
-
-MORPHO_PARAMS_ALB = data.table(read.xlsx("../inputs/data/ALB_Morphometric_Parameters.xlsx"))
-
-MORPHO_PARAMS_ALB_FT = 
-  MORPHO_PARAMS_ALB[Target == "RD", -c("Source", "Target", "Type", "Area", "MinRD", "MaxRD", "Comment")] %>%
-  flextable() %>%
-  flextable::font(part = "all", fontname = "Calibri") %>%
-  flextable::fontsize(size = 9) %>%
-  set_formatter(a = function(x) {formatC(x, format = "e", digits = 4)}) %>%
-  autofit()
-
 # Morphometric data sets ####
 
 ### Historical IOTC observer data ####
@@ -37,9 +25,8 @@ IFREMER_DATASET_TABLE_RAW[, SAMPLING_DATE := convertToDate(SAMPLING_DATE)]
 
 IFREMER_DATASET_TABLE = IFREMER_DATASET_TABLE_RAW[, .(SOURCE = "Ifremer", FISH_IDENTIFIER = paste("Ifremer", FISH_IDENTIFIER, sep = "_"), CAPTURE_DATE_START = SAMPLING_DATE, CAPTURE_DATE_END = SAMPLING_DATE, SAMPLING_LOCATION = "Factory", OCEAN = "Indian Ocean", FLEET_CODE = "EUREU", GEAR_CODE = "ELL" , FISHERY_GROUP_CODE = "LL", LONG = NA, LAT = NA, GRID = NA, SPECIES_CODE, STATUS = "Fresh", SEX, FL, RD)]
 
-### IRD ###
-
-IRD_DATASET_TABLE_RAW = data.table(read.xlsx("../inputs/data/ALB_IRD_DATASET.xlsx"))
+### IRD/University of Mauritius ###
+IRD_DATASET_TABLE_RAW = data.table(read.xlsx("../inputs/data/ALB_MORPHOMETRIC_DATASET_IRD_UOM.csv"))
 IRD_DATASET_TABLE_RAW[, fishing_date := convertToDate(fishing_date)]
 IRD_DATASET_TABLE_RAW[, fishing_date_min := convertToDate(fishing_date_min)]
 IRD_DATASET_TABLE_RAW[, fishing_date_max := convertToDate(fishing_date_max)]

@@ -18,24 +18,16 @@ p_load(
   "officer",
   "dplyr",
   "ggsci",
-  "RPostgreSQL",
   "data.table",
   "sf",
   "colorspace",
-  "rfishbase",
   "patchwork",
-  "rjags",
-  "R2jags",
-  "mcmcplots",
-  "coda",
-  "boa",
   "wellknown",
   "rnaturalearth",
   "MASS",
-  "ftExtra",
   "ggforce"
   )
 
 # Set chart theme to theme_bw
-#theme_set(theme_bw())
+theme_set(theme_bw())
 

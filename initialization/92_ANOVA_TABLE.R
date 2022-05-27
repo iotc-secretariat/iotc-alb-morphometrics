@@ -1,6 +1,4 @@
-
 # ANOVA TABLE FUNCTION
-
 anova_table = function(SpeciesName, LinearModel, MeanSquaresDigits = 3){
 
 ANOVA_TABLE = data.table(anova(LinearModel), keep.rownames = TRUE)
