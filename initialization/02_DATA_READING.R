@@ -5,7 +5,6 @@ print("Read morphometric data...")
 ### Historical IOTC observer data ####
 
 IOTC_HISTORICAL_DATASET_TABLE_RAW    = fread("../inputs/data/ALB_IOTC_HISTORICAL_DATASET.csv")
-IOTC_HISTORICAL_DATASET_TABLE_RAW[FLEET_CODE == "KOR", `:=` (HG = RD, RD = NA)]  # RD seems to be HG
 IOTC_HISTORICAL_DATASET_TABLE_RAW[, SOURCE := "IOTC"]
 IOTC_HISTORICAL_DATASET_TABLE_RAW[AREA == "BIOT", AREA := "Chagos archipelago"]
 
@@ -26,7 +25,7 @@ IFREMER_DATASET_TABLE_RAW[, SAMPLING_DATE := convertToDate(SAMPLING_DATE)]
 IFREMER_DATASET_TABLE = IFREMER_DATASET_TABLE_RAW[, .(SOURCE = "Ifremer", FISH_IDENTIFIER = paste("Ifremer", FISH_IDENTIFIER, sep = "_"), CAPTURE_DATE_START = SAMPLING_DATE, CAPTURE_DATE_END = SAMPLING_DATE, SAMPLING_LOCATION = "Factory", OCEAN = "Indian Ocean", FLEET_CODE = "EUREU", GEAR_CODE = "ELL" , FISHERY_GROUP_CODE = "LL", LONG = NA, LAT = NA, GRID = NA, SPECIES_CODE, STATUS = "Fresh", SEX, FL, RD)]
 
 ### IRD/University of Mauritius ###
-IRD_DATASET_TABLE_RAW = data.table(read.xlsx("../inputs/data/ALB_MORPHOMETRIC_DATASET_IRD_UOM.csv"))
+IRD_DATASET_TABLE_RAW = fread("../inputs/data/ALB_MORPHOMETRIC_DATASET_IRD_UOM.csv")
 IRD_DATASET_TABLE_RAW[, fishing_date := convertToDate(fishing_date)]
 IRD_DATASET_TABLE_RAW[, fishing_date_min := convertToDate(fishing_date_min)]
 IRD_DATASET_TABLE_RAW[, fishing_date_max := convertToDate(fishing_date_max)]
@@ -34,7 +33,7 @@ IRD_DATASET_TABLE_RAW[, fishing_date_max := convertToDate(fishing_date_max)]
 IRD_DATASET_TABLE_RAW[, fish_sampling_date := convertToDate(fish_sampling_date)]
 IRD_DATASET_TABLE_RAW[!is.na(fishing_date), `:=` (fishing_date_min = fishing_date, fishing_date_max = fishing_date)]
 
-IRD_DATASET_TABLE = IRD_DATASET_TABLE_RAW[, .(SOURCE = "MUS University-IRD", FISH_IDENTIFIER = fish_identifier, CAPTURE_DATE_START = fishing_date_min, CAPTURE_DATE_END = fishing_date_max, SAMPLING_LOCATION = "Lab", OCEAN = "Indian Ocean", FLEET_CODE = NA, GEAR_CODE = fishing_gear, FISHERY_GROUP_CODE = fifelse(fishing_gear == "PS", "PS", fifelse(fishing_gear == "BB", "PL", "LL")), LONG = cal_longitude, LAT = cal_latitude, GRID = fifelse(!is.na(cal_longitude), convert_to_CWP_grid(lon = longitude_deg_dec, lat = cal_latitude), as.character(NA)),  SPECIES_CODE = "ALB", STATUS = "Fresh", SEX = sex, FL = fork_length, RD = whole_fishweight)]
+IRD_DATASET_TABLE = IRD_DATASET_TABLE_RAW[, .(SOURCE = "MUS University-IRD", PROJECT = project, FISH_IDENTIFIER = organism_identifier, CAPTURE_DATE_START = fishing_date_min, CAPTURE_DATE_END = fishing_date_max, SAMPLING_LOCATION = "Lab", OCEAN = "Indian Ocean", FLEET_CODE = flag_code, FISHERY_CODE = fishery_code, FISHERY_GROUP_CODE = fifelse(fishing_gear == "PS", "PS", fifelse(fishing_gear == "BB", "PL", "LL")), LONG = cal_longitude, LAT = cal_latitude, GRID = fifelse(!is.na(cal_longitude), convert_to_CWP_grid(lon = longitude_deg_dec, lat = cal_latitude), as.character(NA)),  SPECIES_CODE = "ALB", STATUS = "Fresh", SEX = sex, FL = fork_length, RD = wholebody_weight)]
 
 ### Regional Observer Scheme ####
 
