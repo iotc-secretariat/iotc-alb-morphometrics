@@ -1,22 +1,21 @@
-
 # SCATTERPLOTS ####
 
 ## SOURCE ####
 
-COLORS_SOURCES = data.table(RFMO = c("Ifremer", "MUS University-IRD", "IOTC-HISTORICAL", "IOTC ROS"), FILL = pal_simpsons(alpha = 0.6)(4), OUTLINE = darken(pal_simpsons(alpha = 0.6)(4), 0.2))
+COLORS_SOURCES = data.table(SOURCE = c("Ifremer", "UoM-IRD", "IOTC HISTORICAL", "IOTC ROS"), FILL = pal_simpsons(alpha = 0.6)(4), OUTLINE = darken(pal_simpsons(alpha = 0.6)(4), 0.2))
 
 MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE =
-  ggplot(MORPHOMETRICS_TABLE, aes(x = FL, y = RD, color = SOURCE)) +
+  ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = SOURCE)) +
   geom_point() +
   scale_color_manual(values = COLORS_SOURCES$FILL) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
   theme_bw() +
   theme(legend.position = "bottom", legend.title = element_blank())
 
-save_plot("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE.png", MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE, 8, 6)
+ggsave("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE.png", MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE, width = 8, height = 6)
 
 MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE_FACETED =
-  ggplot(MORPHOMETRICS_TABLE, aes(x = FL, y = RD, color = SOURCE)) +
+  ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = SOURCE)) +
   geom_point() +
   scale_color_manual(values = COLORS_SOURCES$FILL) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
@@ -25,24 +24,27 @@ MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE_FACETED =
   theme(strip.background = element_rect(colour = "black", fill = "white"), strip.text = element_text(size = 12)) +
   facet_wrap(~SOURCE)
 
-save_plot("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE_FACETED.png", MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE_FACETED, 8, 6)
+ggsave("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE_FACETED.png", MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE_FACETED, width = 8, height = 6)
 
 ## FISHERY GROUP ####
 
-COLORS_FISHERY_GROUPS = rbindlist(lapply(list("LL", "PS", "BB"), colors_for_fishery_group))
-
+COLORS_FISHERY_GROUPS = data.table(FISHERY_GROUP_CODE = c("BB", "LI", "LL", "PS"), 
+                                   FILL = c("#FAC090FF", "#B3A2C7FF", "#374BE5FF", "#FB4A6AFF"),
+                                   OUTLINE = c("#CC935FFF", "#8E7EA0FF", "#273AC0FF", "#D81C4AFF")
+                                   )
+  
 MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP =
-  ggplot(MORPHOMETRICS_TABLE, aes(x = FL, y = RD, color = FISHERY_GROUP)) +
+  ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = FISHERY_GROUP)) +
   geom_point(alpha = 0.4) +
   scale_color_manual(values = COLORS_FISHERY_GROUPS$FILL) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
   theme_bw() +
   theme(legend.position = "bottom", legend.title = element_blank())
 
-save_plot("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP.png", MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP, 8, 6)
+ggsave("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP.png", MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP, width = 8, height = 6)
 
 MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP_FACETED =
-  ggplot(MORPHOMETRICS_TABLE, aes(x = FL, y = RD, color = FISHERY_GROUP)) +
+  ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = FISHERY_GROUP)) +
   geom_point(alpha = 0.4) +
   scale_color_manual(values = COLORS_FISHERY_GROUPS$FILL) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
@@ -51,21 +53,21 @@ MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP_FACETED =
   theme(strip.background = element_rect(colour = "black", fill = "white"), strip.text = element_text(size = 12)) +
   facet_wrap(~FISHERY_GROUP)
 
-save_plot("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP_FACETED.png", MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP_FACETED, 8, 4)
+ggsave("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP_FACETED.png", MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP_FACETED, width = 8, height = 6)
 
 ## SEX ####
 
 MORPHOMETRIC_DATA_ALB_FL_RD_SEX =
-  ggplot(MORPHOMETRICS_TABLE, aes(x = FL, y = RD, color = SEX)) +
+  ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = SEX)) +
   geom_point(alpha = 0.4) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
   theme_bw() +
   theme(legend.position = "bottom", legend.title = element_blank())
 
-save_plot("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_SEX.png", MORPHOMETRIC_DATA_ALB_FL_RD_SEX, 8, 6)
+ggsave("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_SEX.png", MORPHOMETRIC_DATA_ALB_FL_RD_SEX, width = 8, height = 6)
 
 MORPHOMETRIC_DATA_ALB_FL_RD_SEX_FACETED =
-  ggplot(MORPHOMETRICS_TABLE, aes(x = FL, y = RD, color = SEX)) +
+  ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = SEX)) +
   geom_point(alpha = 0.4) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
   theme_bw() +
@@ -73,7 +75,7 @@ MORPHOMETRIC_DATA_ALB_FL_RD_SEX_FACETED =
   theme(strip.background = element_rect(colour = "black", fill = "white"), strip.text = element_text(size = 12)) +
   facet_wrap(~SEX)
 
-save_plot("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_SEX_FACETED.png", MORPHOMETRIC_DATA_ALB_FL_RD_SEX_FACETED, 8, 6)
+ggsave("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_SEX_FACETED.png", MORPHOMETRIC_DATA_ALB_FL_RD_SEX_FACETED, width = 8, height = 6)
 
 ## SPATIALIZE THE SAMPLES ####
 
