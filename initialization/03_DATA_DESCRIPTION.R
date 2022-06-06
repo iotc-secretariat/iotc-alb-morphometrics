@@ -141,6 +141,17 @@ ALB_LOGFL_LOGRD_FISHERY_GROUP_AREA_FACETED =
 
 ggsave("../outputs/charts/DESCRIPTION/ALB_LOGFL_LOGRD_FISHERY_GROUP_AREA_FACETED.png", ALB_LOGFL_LOGRD_FISHERY_GROUP_AREA_FACETED, width = 8, height = 6)
 
+# FIELDS DEFINITIONS
+
+FIELD_DEFINITIONS = data.table(read.xlsx("../inputs/data/Metadata_Table.xlsx", sheet = "metadata"))[, .(Field, Definition)]
+
+FIELD_DEFINITIONS_FT =
+  FIELD_DEFINITIONS %>%
+  flextable() %>%
+  flextable::font(fontname = "calibri", part = c("head")) %>%
+  flextable::font(fontname = "calibri", part = c("body")) %>%
+  autofit()
+
 # SAMPLING DESIGN TABLES ####
 
 ## By source and year ####
@@ -150,6 +161,8 @@ SAMPLING_DESIGN_TABLE_SOURCE_YEAR = ALB_FL_RD[, .(N = length(unique(FISH_IDENTIF
 SAMPLING_DESIGN_TABLE_SOURCE_YEAR_FT =
   SAMPLING_DESIGN_TABLE_SOURCE_YEAR %>%
   flextable() %>%
+  flextable::font(fontname = "calibri", part = c("head")) %>%
+  flextable::font(fontname = "calibri", part = c("body")) %>%
   align(part = "header", j = c("N", "FL", "RD"), align = "center") %>%
   align(part = "body", j = c("YEAR", "N", "FL", "RD"), align = "right") %>%
   autofit()
@@ -161,6 +174,8 @@ SAMPLING_DESIGN_TABLE_SOURCE_FISHERY_GROUP = ALB_FL_RD[, .(N = length(unique(FIS
 SAMPLING_DESIGN_TABLE_SOURCE_FISHERY_GROUP_FT =
   SAMPLING_DESIGN_TABLE_SOURCE_FISHERY_GROUP %>%
   flextable() %>%
+  flextable::font(fontname = "calibri", part = c("head")) %>%
+  flextable::font(fontname = "calibri", part = c("body")) %>%
   align(part = "header", j = c("N", "FL", "RD"), align = "center") %>%
   align(part = "body", j = c("N", "FL", "RD"), align = "right") %>%
   autofit()
@@ -172,6 +187,8 @@ SAMPLING_DESIGN_TABLE_AREA_QUARTER = ALB_FL_RD[, .(N = length(unique(FISH_IDENTI
 SAMPLING_DESIGN_TABLE_FT =
   SAMPLING_DESIGN_TABLE_AREA_QUARTER %>%
   flextable() %>%
+  flextable::font(fontname = "calibri", part = c("head")) %>%
+  flextable::font(fontname = "calibri", part = c("body")) %>%
   align(part = "header", align = "center") %>%
   align(part = "body", j = 2:5, align = "right") %>%
   hline(i = c(4, 7, 11, 14)) %>%

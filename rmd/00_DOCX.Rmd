@@ -1,7 +1,7 @@
 ---
-title: "Length-weight relation ship for Indian Ocean albacore"
+title: "Length-weight relationship for Indian Ocean albacore"
 date: "`r format(Sys.time(), '%d %B %Y')`"
-author: IOTC Secretariat^1^,\(^\dagger\)^
+author: IOTC Secretariat^1,^\(^\dagger\)
 output:
   word_document2:
     reference_docx: "../templates/doc_template.docx"

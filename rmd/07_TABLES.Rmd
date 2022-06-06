@@ -1,8 +1,7 @@
-
 # Tables
 
-```{r SamplingDesignTableSourceYear, tab.cap = "Number of albacore samples (N) by data source and year along with the range of morphometric measurements for fork length (FL; cm) and round weight (RD; kg)"}
-SAMPLING_DESIGN_TABLE_SOURCE_YEAR_FT
+```{r DataFieldsDefinitions, tab.cap = "Definition of the fields included in the albacore morphometric data set"}
+FIELD_DEFINITIONS_FT
 ```
 
 \pagebreak
@@ -12,7 +11,6 @@ SAMPLING_DESIGN_TABLE_SOURCE_FISHERY_GROUP_FT
 ```
 
 \pagebreak
-
 
 ```{r AnovaTable, tab.cap = "Summary table of analysis of variance of the round weight in tropical tuna.", eval = FALSE}
 ALB_FL_RD_ANOVA_FT

@@ -1,11 +1,9 @@
 
 ## Statistical models
 
-We used mean linear regression models to examine the relationships between _L~D~_ and _L~F~_, _L~D~_ and _W~R~_, and _L~F~_ and _W~R~_ for each species independently. First, we included in each model the following categorical covariates  to assess their influence on the relationships between morphometric traits: gender (_Sex_), Longhurst province (_ProvCode_), type of school association (i.e., free-swimming school or school associated with drifting floating objects; _SchoolType_), and quarter of capture (_Quarter_) used as a proxy of season. Second, the models were only fitted to the length and weight data for each ocean after testing the. The three full models fitted to the morphometric data for each species were:
+We used mean linear regression models to examine the relationships between FL and RD after log-transformation of the data. First, we included the following categorical covariates to assess their influence on the relationship: gender (_Sex_), stock assessment area (_Area_), fishery group (_FisheryGroup_), and quarter of capture (_Quarter_) used as a proxy of season. The full model fitted to the morphometric data was:
 
-$$L_F_{i,j} = L_D_{i,j} + Sex + ProvCode + SchoolType + Quarter + \epsilon_{i,j}$$
-$$log_{10}(W_R_{i,j}) = log_{10}(L_D_{i,j}) + Sex + ProvCode + SchoolType + Quarter + \delta_{i,j}$$
-$$log_{10}(W_R_{i,j}) = log_{10}(L_F_{i,j}) + Sex + ProvCode + SchoolType + Quarter + \gamma_{i,j}$$
-Where _i_ and _j_ indicate each fish and species, respectively. The model residuals $\epsilon_{i,j}$, $\delta_{i,j}$, and $\gamma_{i,j}$ were assumed to be independent and identically distributed normal random variables with mean zero and constant variance. When modelling _W~R~_, we log10-transformed the variables to represent the assumption that measurement errors in weights are multiplicative. Predictions of the parameters accounted for bias due to log10-transformation [@Smith1993]. Assumptions of homoscedasticity and Gaussian distribution were checked through the residuals. Models were evaluated using the Akaike information criterion (AIC). Statistical analyses were performed in R version 4.1.0 (R Core Team, 2022). 
+$$log_{10}(RD_i) = log_{10}(FL_i) + Sex + Area + FisheyGroup + Quarter + \epsilon_{i}$$
+The model residuals $\epsilon_{i}$ were assumed to be independent and identically distributed normal random variables with mean zero and constant variance. We log10-transformed the variables to represent the assumption that measurement errors in weights are multiplicative. Predictions of the parameters accounted for bias due to log10-transformation [@Smith1993]. Assumptions of homoscedasticity and Gaussian distribution were checked through the residuals. Models were evaluated using the Akaike information criterion (AIC). Statistical analyses were performed in R version 4.1.0 (R Core Team, 2022). 
 
 \pagebreak

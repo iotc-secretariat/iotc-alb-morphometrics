@@ -1,19 +1,14 @@
 # Materials & Methods
 
-## Data collection
+## Data sources
 
-### Sampling operations
+Albacore morphometric data were collated from different sources and harmonized according to a standard format to assess the relationship between fork length and round weight (**Table \@ref(tab:DataFieldsDefinitions)**). The original data sets were collected as part of (i) historical longline observer programs from Korea and the UK [@IOTC2005;@Geehan2013], (ii) research projects conducted on albacore by the University of Mauritius and the French national Research Institute for Sustainable Development [@Dhurmeea2016;@Bodin2018], (iii) routine monitoring program on the biology of large pelagics conducted by Ifremer at a processing factory in Reunion Island [@Bonhommeau2018;@Bonhommeau2019], and (iv) national scientific observer programs conducted by the CPCs from which data have been submitted to the Secretariat as part of the IOTC Regional Observer Scheme.
 
-Although biological data are not part of IOTC data requirements and most historical data sets collected by the CPCs were not made available to the Secretariat [@Geehan2013], some morphometric data have been collated from different sources, including: (i) historical longline observer programs from Korea and the UK [@IOTC2005], (ii) research project conducted on albacore by the University of Mauritius and the French national Research Institute for Sustainable Development [@Dhurmeea2016;@Bodin2018], (iii) routine monitoring program on the biology of large pelagics conducted by Ifremer at a processing factory in Reunion Island [@Bonhommeau2018;@Bonhommeau2019], and (iv) national scientific observer programs conducted by the CPCs from which data have been submitted to the Secretariat as part of the Regional Observer Scheme.
+The total data set is comprised of `r prettyNum(ALB_FL_RD[, .N], big.mark = ",")` albacore caught between `r min(ALB_FL_RD$YEAR, na.rm = TRUE)` and `r max(ALB_FL_RD$YEAR, na.rm = TRUE)` from longline, baitboat, line, and purse seine fisheries (**Table \@ref(tab:SamplingDesignTableSourceFisheryGroup)**). The sampling design is unbalanced with most of the data having been collected by scientific observers deployed on commercial deep-freezing longliners, i.e., contributing to `r round(ALB_FL_RD[SOURCE %in% c("IOTC ROS", "IOTC HISTORICAL"), .N] / ALB_FL_RD[, .N] * 100, 1)`% of the total data set. Observations of fresh fish at sea onboard Japanese longliners represent the very large majority of the observer data available for the study. Information collected from Japanese observers and the fishing industry indicates that albacore are measured as fork length with tape, caliper and/or measuring board used for the small individuals and calipers for the large ones while round weights are mostly measured with 150 kg platform scales (e.g., [Tanaka scale](https://www.tanaka-scale.co.jp/en/t-p/)) or beam scales and reported to the nearest 0.1 kg (_pers. com._ T. Nishida). 
+
+In addition, 
+
+Some sampling operations were conducted at tuna processing factories located in Victoria (Seychelles) through an agreement with the companies to comply with health and quality manufacturer practices and not delay processing operations [@Marsac2006; @Chassot2014]. Access to the canneries and processing lines varied over time according to management policy and staff availability, which resulted in unbalanced sampling design (see below). In complement, some tunas were sampled in the research labs of the Centre de Recherches Océanologiques (CRO) of Abidjan and the Seychelles Fishing Authority (SFA) during some research projects conducted on the ecology of tropical tuna in the eastern Atlantic Ocean and western Indian Ocean, respectively [e.g., @Bodin2018;@Sardenne2019;@Pecoraro2020].
+
 
 ### Sampling protocols
-
-### Sampling design
-
-The data set is comprised of a total of `r prettyNum(ALB_FL_RD[, .N], big.mark = ",")` albacore sampled between `r min(ALB_FL_RD$YEAR, na.rm = TRUE)` and `r max(ALB_FL_RD$YEAR, na.rm = TRUE)`. The sampling design is unbalanced with more tunas sampled (**Table \@ref(tab:SamplingDesignTable)**).
-
-### Morphometric data format
-
-
-
-
