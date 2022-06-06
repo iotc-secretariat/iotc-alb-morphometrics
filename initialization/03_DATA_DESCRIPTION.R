@@ -141,20 +141,38 @@ ALB_LOGFL_LOGRD_FISHERY_GROUP_AREA_FACETED =
 
 ggsave("../outputs/charts/DESCRIPTION/ALB_LOGFL_LOGRD_FISHERY_GROUP_AREA_FACETED.png", ALB_LOGFL_LOGRD_FISHERY_GROUP_AREA_FACETED, width = 8, height = 6)
 
-# SAMPLING DESIGN ####
+# SAMPLING DESIGN TABLES ####
 
-# Excluding the samples without spatiail information
+## By source and year ####
 
-SAMPLING_DESIGN_TABLE = ALB_FL_RD[!is.na(LON_CENTROID), .(N = length(unique(FISH_IDENTIFIER)), FL = paste(min(round(FL), na.rm = TRUE), max(round(FL), na.rm = TRUE), sep = "-"), RD = paste(min(round(RD, 1), na.rm = TRUE), max(round(RD, 1), na.rm = TRUE), sep = "-")), keyby = .(`Assessment area` = SA_AREA_CODE, Quarter = CAPTURE_QUARTER)]
+SAMPLING_DESIGN_TABLE_SOURCE_YEAR = ALB_FL_RD[, .(N = length(unique(FISH_IDENTIFIER)), FL = paste(min(round(FL), na.rm = TRUE), max(round(FL), na.rm = TRUE), sep = "-"), RD = paste(min(round(RD, 1), na.rm = TRUE), max(round(RD, 1), na.rm = TRUE), sep = "-")), keyby = .(SOURCE, YEAR = as.character(YEAR))]
+
+SAMPLING_DESIGN_TABLE_SOURCE_YEAR_FT =
+  SAMPLING_DESIGN_TABLE_SOURCE_YEAR %>%
+  flextable() %>%
+  align(part = "header", j = c("N", "FL", "RD"), align = "center") %>%
+  align(part = "body", j = c("YEAR", "N", "FL", "RD"), align = "right") %>%
+  autofit()
+
+## By source and fishery group ####
+
+SAMPLING_DESIGN_TABLE_SOURCE_FISHERY_GROUP = ALB_FL_RD[, .(N = length(unique(FISH_IDENTIFIER)), FL = paste(min(round(FL), na.rm = TRUE), max(round(FL), na.rm = TRUE), sep = "-"), RD = paste(min(round(RD, 1), na.rm = TRUE), max(round(RD, 1), na.rm = TRUE), sep = "-")), keyby = .(SOURCE, FISHERY_GROUP)]
+
+SAMPLING_DESIGN_TABLE_SOURCE_FISHERY_GROUP_FT =
+  SAMPLING_DESIGN_TABLE_SOURCE_FISHERY_GROUP %>%
+  flextable() %>%
+  align(part = "header", j = c("N", "FL", "RD"), align = "center") %>%
+  align(part = "body", j = c("N", "FL", "RD"), align = "right") %>%
+  autofit()
+
+# By stock assessment area and quarter
+
+SAMPLING_DESIGN_TABLE_AREA_QUARTER = ALB_FL_RD[, .(N = length(unique(FISH_IDENTIFIER)), FL = paste(min(round(FL), na.rm = TRUE), max(round(FL), na.rm = TRUE), sep = "-"), RD = paste(min(round(RD, 1), na.rm = TRUE), max(round(RD, 1), na.rm = TRUE), sep = "-")), keyby = .(`Assessment area` = SA_AREA_CODE, Quarter = CAPTURE_QUARTER)]
 
 SAMPLING_DESIGN_TABLE_FT =
-  SAMPLING_DESIGN_TABLE %>%
+  SAMPLING_DESIGN_TABLE_AREA_QUARTER %>%
   flextable() %>%
-  compose(part = "header", j = "FL", value = as_paragraph("L", as_sub("F"))) %>%
-  compose(part = "header", j = "RD", value = as_paragraph("W", as_sub("R"))) %>%
   align(part = "header", align = "center") %>%
   align(part = "body", j = 2:5, align = "right") %>%
   hline(i = c(4, 7, 11, 14)) %>%
-  autofit() %>%
-  fix_border_issues()
-
+  autofit()

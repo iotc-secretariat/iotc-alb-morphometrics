@@ -1,0 +1,81 @@
+---
+title: "Length-weight relation ship for Indian Ocean albacore"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+author: IOTC Secretariat^1^,\(^\dagger\)^
+output:
+  word_document2:
+    reference_docx: "../templates/doc_template.docx"
+    number_sections: FALSE
+    fig_caption: yes
+csl: iotc.csl
+bibliography: ALBMorpho.bib
+link-citations: yes
+---
+  
+```{r general_options, echo=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  tidy = TRUE,
+  tidy.opts = list(width.cutoff = 60),
+  size = 'small',
+  
+  tab.cap.pre = "Table ",
+  tab.cap.sep = ". ",
+  tab.cap.style ='Table Caption',
+  
+  fig.cap.style = "Caption label",
+  fig.cap.pre = "Fig. ", 
+  fig.cap.sep = ". ",
+  
+  fig.width   = 8,
+  fig.height  = 4.5
+)
+
+knit_hooks$set(
+  inline = function(x) {
+    #prettyNum(x, big.mark = ",")
+    prettyNum(x, big.mark = "")
+  }
+)
+
+#prettyNum with default ',' as big mark
+pn = function(number, big.mark = ",") {
+  return(prettyNum(number, big.mark = big.mark))
+}
+```
+
+```{r child = "00_FRONT.Rmd"}
+```
+
+```{r child = "01_INTRODUCTION.Rmd"}
+```
+
+```{r child = "02_MATERIALS.Rmd"}
+```
+
+```{r child = "03_METHODS.Rmd"}
+```
+
+```{r child = "04_RESULTS.Rmd", eval = FALSE}
+```
+
+```{r child = "05_DISCUSSION.Rmd", eval = FALSE}
+```
+
+```{r child = "06_ACKNOWLEDGMENTS.Rmd", eval = FALSE}
+```
+
+\pagebreak
+
+```{r child = "07_TABLES.Rmd"}
+```
+
+\pagebreak
+
+```{r child = "08_FIGURES.Rmd"}
+```
+
+\pagebreak
+
+```{r child = '90_REFERENCES.Rmd'}
+```

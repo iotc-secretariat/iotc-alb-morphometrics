@@ -1,0 +1,19 @@
+# Materials & Methods
+
+## Data collection
+
+### Sampling operations
+
+Although biological data are not part of IOTC data requirements and most historical data sets collected by the CPCs were not made available to the Secretariat [@Geehan2013], some morphometric data have been collated from different sources, including: (i) historical longline observer programs from Korea and the UK [@IOTC2005], (ii) research project conducted on albacore by the University of Mauritius and the French national Research Institute for Sustainable Development [@Dhurmeea2016;@Bodin2018], (iii) routine monitoring program on the biology of large pelagics conducted by Ifremer at a processing factory in Reunion Island [@Bonhommeau2018;@Bonhommeau2019], and (iv) national scientific observer programs conducted by the CPCs from which data have been submitted to the Secretariat as part of the Regional Observer Scheme.
+
+### Sampling protocols
+
+### Sampling design
+
+The data set is comprised of a total of `r prettyNum(ALB_FL_RD[, .N], big.mark = ",")` albacore sampled between `r min(ALB_FL_RD$YEAR, na.rm = TRUE)` and `r max(ALB_FL_RD$YEAR, na.rm = TRUE)`. The sampling design is unbalanced with more tunas sampled (**Table \@ref(tab:SamplingDesignTable)**).
+
+### Morphometric data format
+
+
+
+
