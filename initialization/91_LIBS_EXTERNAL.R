@@ -25,7 +25,8 @@ p_load(
   "wellknown",
   "rnaturalearth",
   "MASS",
-  "ggforce"
+  "ggforce",
+  "lubridate"
   )
 
 # Set chart theme to theme_bw
