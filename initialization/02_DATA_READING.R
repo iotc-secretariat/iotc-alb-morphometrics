@@ -1,6 +1,3 @@
-# IOTC libraries
-library(iotc.base.common.plots)
-
 print("Read morphometric data...")
 
 # Morphometric data set
