@@ -47,7 +47,7 @@ pn = function(number, big.mark = ",") {
 ```{r child = "00_FRONT.Rmd"}
 ```
 
-```{r child = "01_INTRODUCTION.Rmd"}
+```{r child = "01_INTRODUCTION.Rmd", eval = FALSE}
 ```
 
 ```{r child = "02_MATERIALS.Rmd"}

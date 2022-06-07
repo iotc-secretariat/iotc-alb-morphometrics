@@ -10,8 +10,6 @@ p_load(
   "flextable",
   "scales",
   "openxlsx",
-  "ggpubr",
-  "gridExtra",
   "rmarkdown",
   "knitr",
   "bookdown",
@@ -21,11 +19,9 @@ p_load(
   "data.table",
   "sf",
   "colorspace",
-  "patchwork",
   "wellknown",
   "rnaturalearth",
   "MASS",
-  "ggforce",
   "lubridate"
   )
 

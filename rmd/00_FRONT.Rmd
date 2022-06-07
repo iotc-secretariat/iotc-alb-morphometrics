@@ -6,8 +6,6 @@
 
 ## Abstract
 
-_This is the abstract_
-
 **Keywords:** morphometrics, regional observer scheme, tuna fisheries
 
-<!-- \pagebreak -->
+\pagebreak

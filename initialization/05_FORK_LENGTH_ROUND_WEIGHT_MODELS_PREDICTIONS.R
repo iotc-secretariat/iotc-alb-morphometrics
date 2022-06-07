@@ -1,4 +1,6 @@
 
+print("Initializing FL-RD model predictions...")
+
 # Model predictions
 PREDICTION_DT = data.table(expand.grid(FL = seq(50, 150, 0.1), SA_AREA_CODE = c("IRALB01", "IRALB02", "IRALB03", "IRALB04", "IRALB05")))
 PREDICTION_DT[, log10FL := log(FL, 10)]
@@ -18,6 +20,6 @@ ALB_FL_RD_AREA_FACETED_FIT =
 
 ggsave("../outputs/charts/FITS/ALB_FL_RD_AREA_FIT.png", ALB_FL_RD_AREA_FACETED_FIT, width = 8, height = 6)
 
-
+print("FL-RD model predictions initialized!")
 
 

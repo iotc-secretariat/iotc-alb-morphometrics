@@ -1,3 +1,5 @@
+print("Initializing data description...")
+
 # SCATTERPLOTS ####
 
 ## SOURCE ####
@@ -193,3 +195,5 @@ SAMPLING_DESIGN_TABLE_FT =
   align(part = "body", j = 2:5, align = "right") %>%
   hline(i = c(4, 7, 11, 14)) %>%
   autofit()
+
+print("Data description initialized!")
