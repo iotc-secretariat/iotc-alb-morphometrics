@@ -10,7 +10,7 @@ FIELD_DEFINITIONS_FT
 SAMPLING_DESIGN_TABLE_SOURCE_FISHERY_GROUP_FT
 ```
 
-\pagebreak
+<!-- \pagebreak -->
 
 ```{r AnovaTable, tab.cap = "Summary table of analysis of variance of the round weight in tropical tuna.", eval = FALSE}
 ALB_FL_RD_ANOVA_FT

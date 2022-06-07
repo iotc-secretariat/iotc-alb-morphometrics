@@ -152,6 +152,7 @@ FIELD_DEFINITIONS_FT =
   flextable() %>%
   flextable::font(fontname = "calibri", part = c("head")) %>%
   flextable::font(fontname = "calibri", part = c("body")) %>%
+  flextable::fontsize(size = 9) %>%
   autofit()
 
 # SAMPLING DESIGN TABLES ####
@@ -167,6 +168,7 @@ SAMPLING_DESIGN_TABLE_SOURCE_YEAR_FT =
   flextable::font(fontname = "calibri", part = c("body")) %>%
   align(part = "header", j = c("N", "FL", "RD"), align = "center") %>%
   align(part = "body", j = c("YEAR", "N", "FL", "RD"), align = "right") %>%
+  flextable::fontsize(size = 9) %>%
   autofit()
 
 ## By source and fishery group ####
@@ -180,6 +182,7 @@ SAMPLING_DESIGN_TABLE_SOURCE_FISHERY_GROUP_FT =
   flextable::font(fontname = "calibri", part = c("body")) %>%
   align(part = "header", j = c("N", "FL", "RD"), align = "center") %>%
   align(part = "body", j = c("N", "FL", "RD"), align = "right") %>%
+  flextable::fontsize(size = 9) %>%
   autofit()
 
 # By stock assessment area and quarter
