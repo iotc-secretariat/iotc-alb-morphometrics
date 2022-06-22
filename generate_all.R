@@ -3,8 +3,6 @@ setwd("initialization")
 source("00_CORE.R")
 setwd("..")
 
-options(scipen = 100)
-
 # DOCX
 render("rmd/00_DOCX.Rmd",
        output_format = "word_document2",

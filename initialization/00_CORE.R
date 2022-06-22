@@ -1,3 +1,6 @@
+# Avoid scientific notations
+options(scipen = 100)
+
 # Includes defaults and helper functions
 source("./91_LIBS_EXTERNAL.R")
 source("./92_ANOVA_TABLE.R")
