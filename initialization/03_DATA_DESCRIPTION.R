@@ -185,6 +185,20 @@ SAMPLING_DESIGN_TABLE_SOURCE_FISHERY_GROUP_FT =
   flextable::fontsize(size = 9) %>%
   autofit()
 
+## By source and fleet ####
+
+SAMPLING_DESIGN_TABLE_SOURCE_FLEET = ALB_FL_RD[, .(N = length(unique(FISH_IDENTIFIER)), FL = paste(min(round(FL), na.rm = TRUE), max(round(FL), na.rm = TRUE), sep = "-"), RD = paste(min(round(RD, 1), na.rm = TRUE), max(round(RD, 1), na.rm = TRUE), sep = "-")), keyby = .(SOURCE, FLEET_CODE, FLEET)]
+
+SAMPLING_DESIGN_TABLE_SOURCE_FLEET_FT =
+  SAMPLING_DESIGN_TABLE_SOURCE_FLEET %>%
+  flextable() %>%
+  flextable::font(fontname = "calibri", part = c("head")) %>%
+  flextable::font(fontname = "calibri", part = c("body")) %>%
+  align(part = "header", j = c("N", "FL", "RD"), align = "center") %>%
+  align(part = "body", j = c("N", "FL", "RD"), align = "right") %>%
+  flextable::fontsize(size = 9) %>%
+  autofit()
+
 # By stock assessment area and quarter
 
 SAMPLING_DESIGN_TABLE_AREA_QUARTER = ALB_FL_RD[, .(N = length(unique(FISH_IDENTIFIER)), FL = paste(min(round(FL), na.rm = TRUE), max(round(FL), na.rm = TRUE), sep = "-"), RD = paste(min(round(RD, 1), na.rm = TRUE), max(round(RD, 1), na.rm = TRUE), sep = "-")), keyby = .(`Assessment area` = SA_AREA_CODE, Quarter = CAPTURE_QUARTER)]
