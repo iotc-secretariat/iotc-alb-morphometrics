@@ -79,37 +79,6 @@ MORPHOMETRIC_DATA_ALB_FL_RD_SEX_FACETED =
 
 ggsave("../outputs/charts/DESCRIPTION/MORPHOMETRIC_DATA_ALB_FL_RD_SEX_FACETED.png", MORPHOMETRIC_DATA_ALB_FL_RD_SEX_FACETED, width = 8, height = 6)
 
-# SAMPLES MAP ####
-
-# World map
-world_map = rnaturalearth::ne_countries(scale = "small", returnclass = c("sf"))
-
-# Base map
-BaseMap = 
-  ggplot() +
-  geom_sf(data = world_map, size = .2, fill = "darkgrey", col = NA) +
-  theme(panel.grid.major = element_line(color = gray(0.9), linetype = "dashed", size = 0.5))
-
-# Map of fish samples
-
-ALB_FL_RD_AGG_GEO = ALB_FL_RD[!is.na(FISHING_GROUND_CODE), .N, keyby = .(FISHING_GROUND_CODE, GEOM_WKT, LON_CENTROID, LAT_CENTROID)]
-ALB_FL_RD_AGG_GEO[, `Number of samples` := findInterval(N, vec = c(1, 20, 100, 250, 500, 1000, 10000))]
-ALB_FL_RD_AGG_GEO[, `Number of samples` := factor(`Number of samples`, labels = c("1-20", "21-100", "101-250", "251-500", "501-1,000", "1,001-10,000"))]
-ALB_FL_RD_AGG_GEO_SF = st_as_sf(ALB_FL_RD_AGG_GEO, coords = c("LON_CENTROID", "LAT_CENTROID"), crs = st_crs(4326))
-
-# Long/lat represent the centroids of the positions
-SAMPLES_MAP = 
-BaseMap +
-  geom_sf(data = ALB_SA_AREAS, fill = NA) +
-  scale_x_continuous(limits = c(20, 145)) +
-  scale_y_continuous(limits = c(-60, 30)) +
-  geom_sf(data = ALB_FL_RD_AGG_GEO_SF, aes(size = `Number of samples`), fill = "red", alpha = 0.3, shape = 21) +
-  theme_bw() +
-  theme(legend.position = "bottom") +
-  labs(x = "Longitude", y = "Latitude")
-
-ggsave("../outputs/charts/DESCRIPTION/SAMPLES_MAP.png", SAMPLES_MAP, width = 12, height = 4.5/8*12)
-
 ALB_FL_RD_AREA =
   ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = SA_AREA_CODE)) +
   geom_point(alpha = 0.4) +

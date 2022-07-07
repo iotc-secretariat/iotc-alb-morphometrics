@@ -1,4 +1,3 @@
-
 print("Initializing FL-RD model...")
 
 # Prepare data set
