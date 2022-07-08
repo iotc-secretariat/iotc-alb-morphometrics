@@ -7,9 +7,19 @@ ALB_FL_RD[, log10RD := log(RD, 10)]
 ALB_FL_RD[, logFL   := log(ALB_FL_RD$FL)]
 ALB_FL_RD[, logRD   := log(ALB_FL_RD$RD)]
 ALB_FL_RD[, YEAR := year(CAPTURE_DATE_START)]
-ALB_FL_RD[, month := month(CAPTURE_DATE_START)]
+ALB_FL_RD[, MONTH := month(CAPTURE_DATE_START)]
           
+# Factorize fishery groups
+ALB_FL_RD[, FISHERY_GROUP_CODE := factor(FISHERY_GROUP_CODE, levels = c("LL", "PS", "LI", "BB"))]
+ALB_FL_RD[, FISHERY_GROUP := factor(FISHERY_GROUP, levels = c("Longline", "Purse seine", "Line", "Baitboat"))]
+
 # Stock assessment areas
 ALB_SA_AREAS = st_read("../inputs/shapes/alb_sa/ALB_SA_AREAS.shp")
 
+# Define fishery group colors (IOTC standard)
+FG_COL = data.table(FISHERY_GROUP_CODE = c("LL", "PS", "LI", "BB"), 
+                    FILL = c("#374BE5FF", "#FB4A6AFF", "#B3A2C7FF", "#FAC090FF"), 
+                    OUTLINE = c("#273AC0FF", "#D81C4AFF", "#8E7EA0FF", "#CC935FFF")
+                    )
+  
 print("Morphometric data read!")
