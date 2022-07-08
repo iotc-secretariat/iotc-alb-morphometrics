@@ -14,7 +14,7 @@ ALB_FL_RD_AGG_GEO[, `Number of samples` := factor(`Number of samples`, labels = 
 ALB_FL_RD_AGG_GEO_SF = st_as_sf(ALB_FL_RD_AGG_GEO, coords = c("LON_CENTROID", "LAT_CENTROID"), crs = st_crs(4326))
 
 # Long/lat represent the centroids of the positions
-SAMPLES_MAP_PIEPLOT = 
+MAP_SAMPLES_PIEPLOT = 
   BaseMap +
   geom_sf(data = ALB_SA_AREAS, fill = NA) +
   scale_x_continuous(limits = c(20, 145)) +
@@ -24,7 +24,7 @@ SAMPLES_MAP_PIEPLOT =
   theme(legend.position = "bottom") +
   labs(x = "Longitude", y = "Latitude")
 
-ggsave("../outputs/charts/DESCRIPTION/SAMPLES_MAP_PIEPLOT.png", SAMPLES_MAP_PIEPLOT, width = 12, height = 4.5/8*12)
+ggsave("../outputs/charts/DESCRIPTION/MAPS/MAP_SAMPLES_PIEPLOT.png", MAP_SAMPLES_PIEPLOT, width = 12, height = 4.5/8*12)
 
 # Maps of sampling intensity ####
 
@@ -64,7 +64,7 @@ MAP_SAMPLES_INTENSITY_LL = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_SF
 # Combine plot
 MAP_SAMPLES_INTENSITY_FG  = (MAP_SAMPLES_INTENSITY_BB + MAP_SAMPLES_INTENSITY_LI) / (MAP_SAMPLES_INTENSITY_PS + MAP_SAMPLES_INTENSITY_LL)
 
-ggsave("../outputs/charts/DESCRIPTION/MAP_SAMPLES_INTENSITY_FISHERY_GROUP.png", MAP_SAMPLES_INTENSITY_FG, width = 16, height = 12)
+ggsave("../outputs/charts/DESCRIPTION/MAPS/MAP_SAMPLES_INTENSITY_FISHERY_GROUP.png", MAP_SAMPLES_INTENSITY_FG, width = 16, height = 12)
 
 ## Maps by fleet for longline fisheries ####
 
@@ -76,7 +76,7 @@ MAP_SAMPLES_INTENSITY_LL_NEI = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROU
 
 MAP_SAMPLES_INTENSITY_LL_FLEETS = (MAP_SAMPLES_INTENSITY_LL_EUFRA + MAP_SAMPLES_INTENSITY_LL_JPN) / (MAP_SAMPLES_INTENSITY_LL_TWN + MAP_SAMPLES_INTENSITY_LL_KOR)
 
-ggsave("../outputs/charts/DESCRIPTION/MAP_SAMPLES_INTENSITY_LL_FLEETS.png", MAP_SAMPLES_INTENSITY_LL_FLEETS, width = 16, height = 12)
+ggsave("../outputs/charts/DESCRIPTION/MAPS/MAP_SAMPLES_INTENSITY_LL_FLEETS.png", MAP_SAMPLES_INTENSITY_LL_FLEETS, width = 16, height = 12)
 
 # TEST: MAP WITH CONTOURS
 
