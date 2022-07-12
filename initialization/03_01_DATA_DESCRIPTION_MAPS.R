@@ -30,7 +30,7 @@ ggsave("../outputs/charts/DESCRIPTION/MAPS/MAP_SAMPLES_PIEPLOT.png", MAP_SAMPLES
 
 SAMPLES_BY_AREA_FISHERY_GROUP_FLEET = ALB_FL_RD[!is.na(GEOM_WKT), .N, keyby = .(FISHERY_GROUP_CODE, FISHERY_GROUP, FLEET_CODE, FLEET, GEOM_WKT, LON_CENTROID, LAT_CENTROID)]
 
-SAMPLES_BY_AREA_FISHERY_GROUP_SF = st_as_sf(SAMPLES_BY_AREA_FISHERY_GROUP, wkt = "GEOM_WKT", crs = 4326)
+SAMPLES_BY_AREA_FISHERY_GROUP_FLEET_SF = st_as_sf(SAMPLES_BY_AREA_FISHERY_GROUP_FLEET, wkt = "GEOM_WKT", crs = 4326)
 
 map_sample_intensity = function(Dataset, FisheryGroupCode, FleetCode){
 
@@ -56,10 +56,10 @@ map_sample_intensity = function(Dataset, FisheryGroupCode, FleetCode){
 
 ## Maps by fishery group ####
 
-MAP_SAMPLES_INTENSITY_BB = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_SF, "BB", "All") + labs(title = "Baitboat")
-MAP_SAMPLES_INTENSITY_LI = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_SF, "LI", "All") + labs(title = "Line")
-MAP_SAMPLES_INTENSITY_PS = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_SF, "PS", "All") + labs(title = "Purse seine")
-MAP_SAMPLES_INTENSITY_LL = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_SF, "LL", "All") + labs(title = "Longline") + theme(legend.text=element_text(size = 8))
+MAP_SAMPLES_INTENSITY_BB = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_FLEET_SF, "BB", "All") + labs(title = "Baitboat")
+MAP_SAMPLES_INTENSITY_LI = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_FLEET_SF, "LI", "All") + labs(title = "Line")
+MAP_SAMPLES_INTENSITY_PS = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_FLEET_SF, "PS", "All") + labs(title = "Purse seine")
+MAP_SAMPLES_INTENSITY_LL = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_FLEET_SF, "LL", "All") + labs(title = "Longline") + theme(legend.text=element_text(size = 8))
 
 # Combine plot
 MAP_SAMPLES_INTENSITY_FG  = (MAP_SAMPLES_INTENSITY_BB + MAP_SAMPLES_INTENSITY_LI) / (MAP_SAMPLES_INTENSITY_PS + MAP_SAMPLES_INTENSITY_LL)
@@ -68,13 +68,14 @@ ggsave("../outputs/charts/DESCRIPTION/MAPS/MAP_SAMPLES_INTENSITY_FISHERY_GROUP.p
 
 ## Maps by fleet for longline fisheries ####
 
-MAP_SAMPLES_INTENSITY_LL_EUFRA = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_SF, "LL", "EUFRA") + labs(title = "EU,France")
-MAP_SAMPLES_INTENSITY_LL_JPN = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_SF, "LL", "JPN") + labs(title = "Japan")
-MAP_SAMPLES_INTENSITY_LL_TWN = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_SF, "LL", "TWN") + labs(title = "Taiwan,China")
-MAP_SAMPLES_INTENSITY_LL_KOR = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_SF, "LL", "KOR") + labs(title = "Republic of Korea")
-MAP_SAMPLES_INTENSITY_LL_NEI = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_SF, "LL", "NEI") + labs(title = "Not elsewhere included")
+MAP_SAMPLES_INTENSITY_LL_CHN = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_FLEET_SF, "LL", "CHN") + labs(title = "China")
+MAP_SAMPLES_INTENSITY_LL_EUFRA = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_FLEET_SF, "LL", "EUFRA") + labs(title = "EU,France")
+MAP_SAMPLES_INTENSITY_LL_JPN = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_FLEET_SF, "LL", "JPN") + labs(title = "Japan")
+MAP_SAMPLES_INTENSITY_LL_TWN = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_FLEET_SF, "LL", "TWN") + labs(title = "Taiwan,China")
+MAP_SAMPLES_INTENSITY_LL_KOR = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_FLEET_SF, "LL", "KOR") + labs(title = "Republic of Korea")
+MAP_SAMPLES_INTENSITY_LL_NEI = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_FLEET_SF, "LL", "NEI") + labs(title = "Not elsewhere included")
 
-MAP_SAMPLES_INTENSITY_LL_FLEETS = (MAP_SAMPLES_INTENSITY_LL_EUFRA + MAP_SAMPLES_INTENSITY_LL_JPN) / (MAP_SAMPLES_INTENSITY_LL_TWN + MAP_SAMPLES_INTENSITY_LL_KOR)
+MAP_SAMPLES_INTENSITY_LL_FLEETS = (MAP_SAMPLES_INTENSITY_LL_CHN + MAP_SAMPLES_INTENSITY_LL_EUFRA + MAP_SAMPLES_INTENSITY_LL_JPN) / (MAP_SAMPLES_INTENSITY_LL_TWN + MAP_SAMPLES_INTENSITY_LL_KOR + MAP_SAMPLES_INTENSITY_LL_NEI)
 
 ggsave("../outputs/charts/DESCRIPTION/MAPS/MAP_SAMPLES_INTENSITY_LL_FLEETS.png", MAP_SAMPLES_INTENSITY_LL_FLEETS, width = 16, height = 12)
 

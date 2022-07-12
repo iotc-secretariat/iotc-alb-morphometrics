@@ -19,15 +19,14 @@ ALB_SA_AREAS = st_read("../inputs/shapes/alb_sa/ALB_SA_AREAS.shp")
 # Define fishery group colors (IOTC standard)
 FG_COL = data.table(FISHERY_GROUP_CODE = c("LL", "PS", "LI", "BB"), 
                     FILL = c("#374BE5FF", "#FB4A6AFF", "#B3A2C7FF", "#FAC090FF"), 
-                    #OUTLINE = c("#273AC0FF", "#D81C4AFF", "#8E7EA0FF", "#CC935FFF")
                     OUTLINE = c("#182FB5FF", "#C2013CFF", "#7F6B95FF", "#BF7A13FF")
                     )
 
 # Define longline fleet colors (IOTC standards)
 
-FLEET_COL = data.table(FLEET_CODE = c("EUFRA", "JPN", "TWN", "KOR"), 
-                    FILL = c("#08519C", "#FF7F00", "#FDBB84", "#6A3D9A"), 
-                    OUTLINE = c("#03498E", "#DC7534", "#DBA882", "#5D3B83")
+FLEET_COL = data.table(FLEET_CODE = c("CHN", "EUFRA", "JPN", "TWN", "KOR"), 
+                    FILL = c("#E34A33", "#08519C", "#FF7F00", "#FDBB84", "#6A3D9A"), 
+                    OUTLINE = c("#C04D40", "#03498E", "#DC7534", "#DBA882", "#5D3B83")
 )
 
   
