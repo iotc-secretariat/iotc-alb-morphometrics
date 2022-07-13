@@ -14,6 +14,6 @@ FLEET_COL = data.table(FLEET_CODE = c("CHN", "EUFRA", "JPN", "TWN", "KOR"),
 )
 
 # Define data source colors
-COLORS_SOURCES = data.table(SOURCE = c("OFDC", "Ifremer", "UoM-IRD", "IOTC HISTORICAL", "IOTC ROS"), FILL = pal_simpsons(alpha = 0.6)(5), OUTLINE = darken(pal_simpsons(alpha = 0.6)(5), 0.2))
+COLORS_SOURCES = data.table(SOURCE = c("OFDC", "SHOU", "Ifremer", "UoM-IRD", "IOTC HISTORICAL", "IOTC ROS"), FILL = pal_simpsons(alpha = 0.6)(6), OUTLINE = darken(pal_simpsons(alpha = 0.6)(6), 0.2))
 
 print("Colors palettes initialized!")

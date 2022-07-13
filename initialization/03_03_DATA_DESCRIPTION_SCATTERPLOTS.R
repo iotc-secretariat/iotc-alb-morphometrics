@@ -2,6 +2,20 @@ print("Initializing data description...")
 
 # SCATTERPLOTS ####
 
+## GENERAL DENSITY PLOT ####
+
+MORPHOMETRIC_DATA_ALB_FL_RD_DENSITY = ggplot(ALB_FL_RD, aes(x = FL, y = RD)) +
+  stat_density_2d(aes(fill = ..level..), geom = "polygon", colour="white")  +
+  # stat_density_2d(aes(fill = ..density..), geom = "raster", contour = FALSE) +
+  # scale_fill_distiller(palette=4, direction=1) +
+  # scale_x_continuous(expand = c(0, 0)) +
+  # scale_y_continuous(expand = c(0, 0)) +
+  labs(x = "Fork length (cm)", y = "Round weight (kg)") +
+  theme_bw() +
+  theme(legend.position = "none")
+
+ggsave("../outputs/charts/DESCRIPTION/SCATTERPLOTS/MORPHOMETRIC_DATA_ALB_FL_RD_DENSITY.png", MORPHOMETRIC_DATA_ALB_FL_RD_DENSITY, width = 8, height = 6)
+
 ## SOURCE ####
 
 MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE =
