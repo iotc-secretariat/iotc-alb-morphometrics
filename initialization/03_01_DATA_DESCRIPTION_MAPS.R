@@ -9,8 +9,8 @@ BaseMap =
 
 # Map of samples ####
 ALB_FL_RD_AGG_GEO = ALB_FL_RD[!is.na(FISHING_GROUND_CODE), .N, keyby = .(FISHING_GROUND_CODE, GEOM_WKT, LON_CENTROID, LAT_CENTROID)]
-ALB_FL_RD_AGG_GEO[, `Number of samples` := findInterval(N, vec = c(1, 20, 100, 250, 500, 1000, 10000))]
-ALB_FL_RD_AGG_GEO[, `Number of samples` := factor(`Number of samples`, labels = c("1-20", "21-100", "101-250", "251-500", "501-1,000", "1,001-10,000"))]
+ALB_FL_RD_AGG_GEO[, `Number of samples` := findInterval(N, vec = c(1, 50, 500, 1000, 5000, 10000, 31000))]
+ALB_FL_RD_AGG_GEO[, `Number of samples` := factor(`Number of samples`, labels = c("1-50", "51-500", "501-1000", "1001-5000", "5001-10,000", "10,001-31,000"))]
 ALB_FL_RD_AGG_GEO_SF = st_as_sf(ALB_FL_RD_AGG_GEO, coords = c("LON_CENTROID", "LAT_CENTROID"), crs = st_crs(4326))
 
 # Long/lat represent the centroids of the positions

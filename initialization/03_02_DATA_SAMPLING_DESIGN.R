@@ -173,7 +173,7 @@ RD_DISTRIBUTION_SEX_HISTOGRAM =
   scale_x_continuous(limits = c(0, 35)) +
   scale_y_continuous(labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
   theme(strip.background = element_rect(fill = "white"), legend.position = "none") +
-  facet_wrap(~SEX)
+  facet_wrap(~SEX, scales = "free_y")
 
 ggsave("../outputs/charts/DESCRIPTION/DESIGN/RD_DISTRIBUTION_SEX_HISTOGRAM.png", RD_DISTRIBUTION_SEX_HISTOGRAM, width = 10, height = 8)
 
