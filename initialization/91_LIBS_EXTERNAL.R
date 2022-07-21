@@ -29,7 +29,8 @@ p_load(
   "mgcv", 
   "mgcViz", 
   "randomForest",
-  "patchwork"
+  "patchwork", 
+  "rpart"
   )
 
 # Set chart theme to theme_bw

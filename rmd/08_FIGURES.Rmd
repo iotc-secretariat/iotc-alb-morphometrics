@@ -2,7 +2,7 @@
 # Figures
 
 ```{r SamplesMap, fig.cap = paste0("Spatial distribution of albacore tunas sampled for morphometrics for which information on fishing grounds was available (n = ", prettyNum(ALB_FL_RD[!is.na(LON_CENTROID), .N], big.mark = ","), ")"), fig.width = 12, fig.height = 6.75}
-include_graphics("../outputs/charts/DESCRIPTION/SAMPLES_MAP.png")
+include_graphics("../outputs/charts/DESCRIPTION/MAPS/MAP_SAMPLES_INTENSITY_FISHERY_GROUP.png")
 ```
 
 \pagebreak
