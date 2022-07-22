@@ -30,7 +30,8 @@ p_load(
   "mgcViz", 
   "randomForest",
   "patchwork", 
-  "rpart"
+  "rpart",
+  "gratia"
   )
 
 # Set chart theme to theme_bw

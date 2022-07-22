@@ -29,22 +29,72 @@ AIC(mod1, mod2, mod3, mod4)
 # Visualize "best model" outputs
 MOD4 = getViz(mod4)
 
-print(plot(MOD4, allTerms = T), pages = 1)
-print(plot(MOD4, allTerms = T, select = 1), pages = 1)
+windows(); print(plot(MOD4, allTerms = T), pages = 1)
+savePlot("../outputs/charts/GAMS/EFFECT_logFLFemales.png", type = "png")
 
-par(mfcol = c(2, 2))
+print(plot(MOD4, allTerms = T, select = 1))
 
-foo = 
+## PLOT.GAM OPTION 1
+
+opar = par(no.readonly = TRUE)
+par(mfrow=c(4, 3), mar = c(4,2.5,1,1), cex.axis = 1.1, cex.lab = 1.1, oma = c(0,2,0,0))
+
+plot.gam(mod4, all.terms = TRUE, residuals = FALSE , xlab = "log(Fork length)", ylab = "", select = 1, shade = T, shade.col = alpha("red", 0.3), lwd=2, col = "red", xlim = c(4, 5), xaxs = 'i', ylim = c(-2, 2), rug = TRUE, las = 1, )
+abline(v = seq(4, 5, 0.2), lty = 1, col = alpha("grey", 0.5), lwd = 0.3)
+abline(h = seq(-2, 2, 1), lty = 1, col = alpha("grey", 0.5),lwd = 0.3)
+#legend('topleft',legend='a',bty='n',cex=1.5)
+
+# Y-label
+#mtext(text = 'Selected effect on log(Round weight)', side = 2, line = 2.5, cex = 0.9)
+
+
+## PLOT.GAM | OPTION 2
+# Extract the smooth terms
+sm_mod4 = gratia::smooth_estimates(mod4, dist = 0.1)
+sm_mod4_1 = sm_mod4[sm_mod4$smooth == "s(logFL):SEXI", ]
+
+sm_mod4_LongLatSexF = draw(mod4, residuals = FALSE)[[6]] & labs(x = "Longitude", y = "Latitude", title = "te(Longitude, Latitude)", subtitle = "By: Sex, Female")
+
+sm_mod4_LongLatSexI = draw(mod4, residuals = FALSE)[[7]] & labs(x = "Longitude", y = "Latitude", title = "te(Longitude, Latitude)", subtitle = "By: Sex, Immature")
+
+sm_mod4_LongLatSexM = draw(mod4, residuals = FALSE)[[8]] & labs(x = "Longitude", y = "Latitude", title = "te(Longitude, Latitude)", subtitle = "By: Sex, Male")
+
+sm_mod4_LongLatSexU = draw(mod4, residuals = FALSE)[[9]] & labs(x = "Longitude", y = "Latitude", title = "te(Longitude, Latitude)", subtitle = "By: Sex, Unknown")
+
+popo = (sm_mod4_LongLatSexM + sm_mod4_LongLatSexF) / (sm_mod4_LongLatSexI + sm_mod4_LongLatSexU)
+
+ggsave("../outputs/charts/GAMS/test1.png", popo, width = 10, height = 8)
+
+# plt <- plot.gam(mod4)[[5]]
+# plt <- plt[[5]] # plot.gam returns a list of n elements, one per plot
+# 
+# sm <- smooth_estimates(m, smooth = "te(x,y)", dist = 0.1)
+# ggplot(sm, aes(x = x, y = y)) +
+#   geom_raster(aes(fill = est)) +
+#   geom_point(data = df, alpha = 0.2) + # add a point layer for original data
+#   scale_fill_viridis_c(option = "plasma")
+# 
+
+logFLFemales = 
   plot(sm(MOD4, 1)) +
   l_fitLine(alpha = 0.6, color = "red", size = 1.2) + 
   l_rug(alpha = 0.8) +
-#  l_ciLine(mul = 5, colour = "blue", linetype = 2) +
-  labs(y = "s(logFL)", title = "Females")
+  l_ciPoly(level = 0.95, colour = NA, fill = alpha("red", 0.4)) +
+  labs(y = "Selected effect on log(Round weight)", title = "Females") +
+  theme(panel.grid.major = element_line(), panel.grid.minor = element_line(linetype = 2)) +
+  scale_y_continuous(breaks = seq(-2, 2, 1), minor_breaks = seq(-2, 2, 0.5))
 
-plot(sm(MOD2, 2)) + 
-  l_fitRaster() + 
-  l_fitContour() + 
-  l_points(shape = 19, size = 3, alpha = 0.1)
+logFLMales = 
+  plot(sm(MOD4, 3)) +
+  l_fitLine(alpha = 0.6, color = "blue", size = 1.2) + 
+  l_rug(alpha = 0.8) +
+  l_ciPoly(level = 0.95, colour = NA, fill = alpha("blue", 0.4)) +
+  labs(y = "Selected effect on log(Round weight)", title = "Males") + 
+  theme(panel.grid.major = element_line(), panel.grid.minor = element_line(linetype = 2)) +
+  scale_y_continuous(breaks = seq(-2, 2, 1), minor_breaks = seq(-2, 2, 0.5))
+
+savePlot("../outputs/charts/GAMS/EFFECT_logFLFemales.png", type = "png")
+
 
 plot.gam(mod4, select = 1, rug=T, residuals = T)
 plot.gam(mod4, select = 2, scheme=2, too.far=.07, main = ""); maps::map(add=T, fill=T)
