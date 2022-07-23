@@ -1,6 +1,26 @@
 ## Statistical models
 
+### Generalized Additive Models
+
+GAMs use local smoothers and make no a priori assumptions about the nature of the associations between predictors and response variables [@Hastie1990]. We used GAMs to examine the factors susceptible to affect the relationship between albacore size and  weight. Year and month were included in the models to represent potential annual and seasonal changes in the relationship (e.g., due to changes in prey availability and environmental conditions over time) while a tensor product smooth of longitude and latitude was used to model the spatial autocorrelation in the data. Differences between sex were tested by including gender as a categorical covariate as well as in interaction with fork length and the 2-dimensional tensor product of longitude and latitude. Different models with increasing complexity were built:
+
+<!-- A random effect for the combination of year, month, latitude, longitude, and fleet  -->
+
+$$\log_{10}RD_i = s(\log_{10}FL_i) + te(LON\_CENTROID_i, LAT\_CENTROID_i) + YEAR_i + s(MONTH_i) + \epsilon_i$$
+
+$$\log_{10}RD_i = s(\log_{10}FL_i) + te(LON\_CENTROID_i, LAT\_CENTROID_i) + YEAR_i + s(MONTH_i) + SEX_i  + \epsilon_i$$
+$$\log_{10}RD_i = SEX_i + s(\log_{10}FL_i:SEX_i) + te(LON\_CENTROID_i, LAT\_CENTROID_i) + YEAR_i + s(MONTH_i)  + \epsilon_i$$
+
+
+$$\log_{10}RD_i = SEX_i + s(\log_{10}FL_i:SEX_i) + te(LON\_CENTROID_i, LAT\_CENTROID_i):SEX_i + YEAR_i + s(MONTH_i)  + \epsilon_i$$
+
+where the model residuals $\espilon were assumed to be independent and identically distributed normal random variables with mean zero and constant variance. Model fitting and the automatic selection of degrees of freedom for the regression splines were performed using the generalized cross-validation method (Wood, 2011). Assumptions of homoscedasticity and Gaussian distribution were checked through the residuals.
+
+### Mean regression models
+
 We used mean linear regression models to examine the relationships between FL and RD after log-transformation of the data. First, we included the following categorical covariates to assess their influence on the relationship: gender (_Sex_), stock assessment area (_Area_), fishery group (_FisheryGroup_), and quarter of capture (_Quarter_) used as a proxy of season. The full model fitted to the morphometric data was:
 
 $$\log_{10}(RD_i) = \log_{10}(FL_i) + Sex + Area + FisheyGroup + Quarter + \epsilon_{i}$$
 The model residuals $\epsilon_{i}$ were assumed to be independent and identically distributed normal random variables with mean zero and constant variance. We log10-transformed the variables to represent the assumption that measurement errors in weights are multiplicative. Predictions of the parameters accounted for bias due to log10-transformation [@Smith1993]. Assumptions of homoscedasticity and Gaussian distribution were checked through the residuals. Models were evaluated using the Akaike information criterion (AIC). Statistical analyses were performed in R version 4.1.0 (R Core Team, 2022). 
+
+### Impact on inputs for stock assessment
