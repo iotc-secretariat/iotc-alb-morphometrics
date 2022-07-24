@@ -1,26 +1,42 @@
 ## Statistical models
 
-### Generalized Additive Models
+### Generalized additive models
 
-GAMs use local smoothers and make no a priori assumptions about the nature of the associations between predictors and response variables [@Hastie1990]. We used GAMs to examine the factors susceptible to affect the relationship between albacore size and  weight. Year and month were included in the models to represent potential annual and seasonal changes in the relationship (e.g., due to changes in prey availability and environmental conditions over time) while a tensor product smooth of longitude and latitude was used to model the spatial autocorrelation in the data. Differences between sex were tested by including gender as a categorical covariate as well as in interaction with fork length and the 2-dimensional tensor product of longitude and latitude. Different models with increasing complexity were built:
+GAMs were used to examine the factors susceptible to affect the relationship between albacore size and  weight. Length and weight data were log10-transformed to stabilize the variance. Year (YEAR) and month (MONTH) were included in the models to represent potential annual and seasonal changes in the relationship, e.g., due to changes in prey availability and environmental conditions over time. A tensor product smooth of the longitude (LON) and latitude (LAT) of the centroids of the 5x5-degree squares was used to model the spatial autocorrelation in the data. Differences between sex were tested by including gender (SEX) as a categorical covariate as well as in interaction with fork length and the 2-dimensional tensor product of longitude and latitude.
+
+Different models of increasing complexity were built and the best model was selected based on the Akaike Information Criterion (AIC):
 
 <!-- A random effect for the combination of year, month, latitude, longitude, and fleet  -->
 
-$$\log_{10}RD_i = s(\log_{10}FL_i) + te(LON\_CENTROID_i, LAT\_CENTROID_i) + YEAR_i + s(MONTH_i) + \epsilon_i$$
+\begin{equation}
+\log_{10}RD_i = s(\log_{10}FL_i) + te(LON, LAT) + YEAR + s(MONTH) + \epsilon_i
+(\#eq:gam1)
+\end{equation}
 
-$$\log_{10}RD_i = s(\log_{10}FL_i) + te(LON\_CENTROID_i, LAT\_CENTROID_i) + YEAR_i + s(MONTH_i) + SEX_i  + \epsilon_i$$
-$$\log_{10}RD_i = SEX_i + s(\log_{10}FL_i:SEX_i) + te(LON\_CENTROID_i, LAT\_CENTROID_i) + YEAR_i + s(MONTH_i)  + \epsilon_i$$
+\begin{equation}
+\log_{10}RD_i = s(\log_{10}FL_i) + te(LON, LAT) + YEAR + s(MONTH) + SEX  + \epsilon_i
+(\#eq:gam2)
+\end{equation}
 
+\begin{equation}
+\log_{10}RD_i = SEX_i + s(\log_{10}FL_i:SEX) + te(LON, LAT) + YEAR + s(MONTH)  + \epsilon_i
+(\#eq:gam3)
+\end{equation}
 
-$$\log_{10}RD_i = SEX_i + s(\log_{10}FL_i:SEX_i) + te(LON\_CENTROID_i, LAT\_CENTROID_i):SEX_i + YEAR_i + s(MONTH_i)  + \epsilon_i$$
+\begin{equation}
+\log_{10}RD_i = SEX + s(\log_{10}FL_i:SEX) + te(LON, LA):SEX + YEAR + s(MONTH)  + \epsilon_i
+(\#eq:gam4)
+\end{equation}
 
-where the model residuals $\espilon were assumed to be independent and identically distributed normal random variables with mean zero and constant variance. Model fitting and the automatic selection of degrees of freedom for the regression splines were performed using the generalized cross-validation method (Wood, 2011). Assumptions of homoscedasticity and Gaussian distribution were checked through the residuals.
+where _i_ indicates each fish and s() represents non-parametric smoothing terms. The model residuals $\epsilon$ were assumed to be independent and identically distributed normal random variables with mean zero and constant variance. Model fitting and the automatic selection of degrees of freedom for the regression splines were performed using the generalized cross-validation method [@Wood2011]. Assumptions of homoscedasticity and Gaussian distribution were checked through the residuals.
+
+To reduce computation time regarding the size of the data set, a sub-sampling procedure was developed to limit the number of samples per stratum (i.e., year, month, fleet, and fishing ground) to a maximum of 10. GAM analyses were then performed on a reduced data set of `r ALB_FL_RD_SUBSAMPLED[, .N]` samples that covered the same strata as the original data set.
 
 ### Mean regression models
 
-We used mean linear regression models to examine the relationships between FL and RD after log-transformation of the data. First, we included the following categorical covariates to assess their influence on the relationship: gender (_Sex_), stock assessment area (_Area_), fishery group (_FisheryGroup_), and quarter of capture (_Quarter_) used as a proxy of season. The full model fitted to the morphometric data was:
+We used mean linear regression models to derive an univariate relationship for predicting round weight from observations of fork length and assess the influence of other factors on weight predictions. In addition to fork length (FL), we included the following categorical covariates in the model: gender (SEX), year of capture (YEAR), month of capture (MONTH), stock assessment area (AREA), fishery group (FISHERY_GROUP), and fishing fleet (FLEET). The full model fitted to the morphometric data was:
 
-$$\log_{10}(RD_i) = \log_{10}(FL_i) + Sex + Area + FisheyGroup + Quarter + \epsilon_{i}$$
+$$\log_{10}(RD_i) = \log_{10}(FL_i) + SEX + YEAR + MONTH + AREA + FISHERY\_GROUP + FLEET + \epsilon_{i}$$
 The model residuals $\epsilon_{i}$ were assumed to be independent and identically distributed normal random variables with mean zero and constant variance. We log10-transformed the variables to represent the assumption that measurement errors in weights are multiplicative. Predictions of the parameters accounted for bias due to log10-transformation [@Smith1993]. Assumptions of homoscedasticity and Gaussian distribution were checked through the residuals. Models were evaluated using the Akaike information criterion (AIC). Statistical analyses were performed in R version 4.1.0 (R Core Team, 2022). 
 
 ### Impact on inputs for stock assessment

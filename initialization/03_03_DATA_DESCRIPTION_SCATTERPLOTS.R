@@ -21,7 +21,7 @@ ggsave("../outputs/charts/DESCRIPTION/SCATTERPLOTS/MORPHOMETRIC_DATA_ALB_FL_RD_D
 
 MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE =
   ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = SOURCE)) +
-  geom_point() +
+  geom_point(size = 0.9) +
   scale_color_manual(values = COLORS_SOURCES$FILL) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
   theme_bw() +
@@ -31,11 +31,11 @@ ggsave("../outputs/charts/DESCRIPTION/SCATTERPLOTS/MORPHOMETRIC_DATA_ALB_FL_RD_S
 
 MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE_FACETED =
   ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = SOURCE)) +
-  geom_point() +
+  geom_point(size = 0.9) +
   scale_color_manual(values = COLORS_SOURCES$FILL) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
   theme_bw() +
-  theme(legend.position = "bottom", legend.title = element_blank()) +
+  theme(legend.position = "none") +
   theme(strip.background = element_rect(colour = "black", fill = "white"), strip.text = element_text(size = 12)) +
   facet_wrap(~SOURCE)
 
@@ -45,7 +45,7 @@ ggsave("../outputs/charts/DESCRIPTION/SCATTERPLOTS/MORPHOMETRIC_DATA_ALB_FL_RD_S
 
 MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP =
   ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = FISHERY_GROUP)) +
-  geom_point(alpha = 0.4) +
+  geom_point(alpha = 0.4, size = 0.9) +
   scale_color_manual(values = FG_COL$FILL) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
   theme_bw() +
@@ -55,7 +55,7 @@ ggsave("../outputs/charts/DESCRIPTION/SCATTERPLOTS/MORPHOMETRIC_DATA_ALB_FL_RD_F
 
 MORPHOMETRIC_DATA_ALB_FL_RD_FISHERY_GROUP_FACETED =
   ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = FISHERY_GROUP)) +
-  geom_point(alpha = 0.4) +
+  geom_point(alpha = 0.4, size = 0.9) +
   scale_color_manual(values = FG_COL$FILL) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
   theme_bw() +
@@ -69,7 +69,7 @@ ggsave("../outputs/charts/DESCRIPTION/SCATTERPLOTS/MORPHOMETRIC_DATA_ALB_FL_RD_F
 
 MORPHOMETRIC_DATA_ALB_FL_RD_SEX =
   ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = SEX)) +
-  geom_point(alpha = 0.4) +
+  geom_point(alpha = 0.4, size = 0.9) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
   theme_bw() +
   theme(legend.position = "bottom", legend.title = element_blank())
@@ -78,7 +78,7 @@ ggsave("../outputs/charts/DESCRIPTION/SCATTERPLOTS/MORPHOMETRIC_DATA_ALB_FL_RD_S
 
 MORPHOMETRIC_DATA_ALB_FL_RD_SEX_FACETED =
   ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = SEX)) +
-  geom_point(alpha = 0.4) +
+  geom_point(alpha = 0.4, size = 0.9) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
   theme_bw() +
   theme(legend.position = "bottom", legend.title = element_blank()) +
@@ -87,9 +87,11 @@ MORPHOMETRIC_DATA_ALB_FL_RD_SEX_FACETED =
 
 ggsave("../outputs/charts/DESCRIPTION/SCATTERPLOTS/MORPHOMETRIC_DATA_ALB_FL_RD_SEX_FACETED.png", MORPHOMETRIC_DATA_ALB_FL_RD_SEX_FACETED, width = 8, height = 6)
 
+## AREA ####
+
 ALB_FL_RD_AREA =
   ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = SA_AREA_CODE)) +
-  geom_point(alpha = 0.4) +
+  geom_point(alpha = 0.4, size = 0.9) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
   theme_bw() +
   theme(legend.position = "bottom", legend.title = element_blank())
@@ -98,7 +100,7 @@ ggsave("../outputs/charts/DESCRIPTION/SCATTERPLOTS/ALB_FL_RD_AREA.png", ALB_FL_R
 
 ALB_FL_RD_FISHERY_GROUP_AREA_FACETED =
   ggplot(ALB_FL_RD, aes(x = FL, y = RD, color = FISHERY_GROUP)) +
-  geom_point(aes(color = FISHERY_GROUP), alpha = 0.4) +
+  geom_point(aes(color = FISHERY_GROUP), alpha = 0.4, size = 0.9) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
   scale_color_manual(values = FG_COL$FILL) + 
   theme_bw() +
@@ -110,7 +112,7 @@ ggsave("../outputs/charts/DESCRIPTION/SCATTERPLOTS/ ALB_FL_RD_FISHERY_GROUP_AREA
 
 ALB_LOGFL_LOGRD_FISHERY_GROUP_AREA_FACETED =
   ggplot(ALB_FL_RD, aes(x = log10FL, y = log10RD, color = FISHERY_GROUP)) +
-  geom_point(aes(color = FISHERY_GROUP), alpha = 0.4) +
+  geom_point(aes(color = FISHERY_GROUP), alpha = 0.4, size = 0.9) +
   labs(x = "log-Fork length (cm)", y = "log-Round weight (kg)") +
   scale_color_manual(values = FG_COL$FILL) + 
   theme_bw() +

@@ -1,12 +1,18 @@
 
 # Figures
 
-```{r SamplesMap, fig.cap = paste0("Spatial distribution of albacore tunas sampled for morphometrics for which information on fishing grounds was available (n = ", prettyNum(ALB_FL_RD[!is.na(LON_CENTROID), .N], big.mark = ","), ")"), fig.width = 12, fig.height = 6.75}
+```{r SamplesMap, fig.cap = paste0("Spatial distribution of albacore tunas sampled for morphometrics (n = ", prettyNum(ALB_FL_RD[!is.na(LON_CENTROID), .N], big.mark = ","), ")"), fig.width = 12, fig.height = 6.75}
 include_graphics("../outputs/charts/DESCRIPTION/MAPS/MAP_SAMPLES_INTENSITY_FISHERY_GROUP.png")
 ```
 
 \pagebreak
 
-```{r ModelFitsByArea, fig.cap = "Relationships between fork length (cm) and round weight (kg) for Indian Ocean albacore estimated by large stock assessment area. The solid line corresponds to the mean regression fitted to the log-transformed data"}
-include_graphics("../outputs/charts/FITS/ALB_FL_RD_AREA_FIT.png")
+```{r ScatterplotBySource, fig.cap = "Relationship between fork length (cm) and round weight (kg) for albacore by data source available for the study. ROS = Regional Observer Scheme; OFDC = Overseas Fisheries Development Council; SHOU = Shanghai Ocean University; UoM = University of Mauritius; IRD = Institut de Recherche pour le Développement", fig.width = 12, fig.height = 6.75}
+include_graphics("../outputs/charts/DESCRIPTION/SCATTERPLOTS/MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE_FACETED.png")
+```
+
+\pagebreak
+
+```{r ModelFitsByArea, fig.cap = "Relationships between fork length (cm) and round weight (kg) for Indian Ocean albacore estimated by large stock assessment area. The solid line corresponds to the mean regression fitted to the log-transformed data", eval = FALSE}
+include_graphics("../outputs/charts/DESCRIPTION/SCATTERPLOTS/ALB_FL_RD_AREA.png")
 ```

@@ -7,7 +7,7 @@ FIELD_DEFINITIONS_FT
 \pagebreak
 
 ```{r SamplingDesignTableSourceFisheryGroup, tab.cap = "Number of albacore samples (N) by data source, fleet, and fishery group along with the range of morphometric measurements for fork length (FL; cm) and round weight (RD; kg). OFDC = Overseas Fisheries Deveopment Council; SHOU = Shanghai Ocean University; UoM-IRD = University of Mauritius - Institut de Recherche pour le Développement"}
-SAMPLING_DESIGN_TABLE_SOURCE_FLEET_FT
+SAMPLING_DESIGN_TABLE_FG_SOURCE_FLEET_FT
 ```
 
 <!-- \pagebreak -->

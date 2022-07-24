@@ -211,8 +211,8 @@ SAMPLING_DESIGN_TABLE_SOURCE_FISHERY_GROUP_FT =
 
 SAMPLING_DESIGN_TABLE_FG_SOURCE_FLEET = ALB_FL_RD[, .(N = length(unique(FISH_IDENTIFIER)), FL = paste(min(round(FL), na.rm = TRUE), max(round(FL), na.rm = TRUE), sep = "-"), RD = paste(min(round(RD, 1), na.rm = TRUE), max(round(RD, 1), na.rm = TRUE), sep = "-")), keyby = .(SOURCE, FISHERY_GROUP_CODE, FISHERY_GROUP, FLEET_CODE, FLEET)]
 
-SAMPLING_DESIGN_TABLE_SOURCE_FLEET_FT =
-  SAMPLING_DESIGN_TABLE_SOURCE_FLEET %>%
+SAMPLING_DESIGN_TABLE_FG_SOURCE_FLEET_FT =
+  SAMPLING_DESIGN_TABLE_FG_SOURCE_FLEET %>%
   flextable() %>%
   set_header_labels(values = list(
     SOURCE = "Source",
@@ -231,20 +231,6 @@ SAMPLING_DESIGN_TABLE_SOURCE_FLEET_FT =
   merge_v(j = "SOURCE") %>%
   flextable::fontsize(size = 9) %>%
   fix_border_issues() %>%
-  autofit()
-
-## By source and fleet ####
-
-SAMPLING_DESIGN_TABLE_SOURCE_FLEET = ALB_FL_RD[, .(N = length(unique(FISH_IDENTIFIER)), FL = paste(min(round(FL), na.rm = TRUE), max(round(FL), na.rm = TRUE), sep = "-"), RD = paste(min(round(RD, 1), na.rm = TRUE), max(round(RD, 1), na.rm = TRUE), sep = "-")), keyby = .(SOURCE, FLEET_CODE, FLEET)]
-
-SAMPLING_DESIGN_TABLE_SOURCE_FLEET_FT =
-  SAMPLING_DESIGN_TABLE_SOURCE_FLEET %>%
-  flextable() %>%
-  flextable::font(fontname = "calibri", part = c("head")) %>%
-  flextable::font(fontname = "calibri", part = c("body")) %>%
-  align(part = "header", j = c("N", "FL", "RD"), align = "center") %>%
-  align(part = "body", j = c("N", "FL", "RD"), align = "right") %>%
-  flextable::fontsize(size = 9) %>%
   autofit()
 
 # By stock assessment area and quarter

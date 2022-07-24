@@ -3,6 +3,7 @@ print("Initializing data exploration with GAMs...")
 ALB_FL_RD[, rf := factor(paste(LAT_CENTROID, LON_CENTROID, YEAR, MONTH, FLEET_CODE))]
 ALB_FL_RD[, yrf := factor(YEAR, ordered = TRUE)] # ordered factors behave differently in the GAM
 ALB_FL_RD[, SEX := factor(SEX)]
+ALB_FL_RD[, FISHERY_CODE := factor(FISHERY_CODE)]
 
 # Subsample the data set with X fish by stratum when N>X
 set.seed(42)
@@ -15,6 +16,8 @@ ALB_FL_RD_SUBSAMPLED = ALB_FL_RD[, .SD[sample(.N, min(N_SUBSAMPLE, .N))], by = .
 
 ## NO RANDOM EFFECT ####
 
+mod0 = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + FISHERY_CODE + yrf + s(MONTH), data = ALB_FL_RD_SUBSAMPLED) # Fishery effect
+
 mod1 = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH), data = ALB_FL_RD_SUBSAMPLED) # No sex effect
 
 mod2 = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + SEX, data = ALB_FL_RD_SUBSAMPLED)  # Includes sex
@@ -24,7 +27,10 @@ mod3 = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k =
 mod4 = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6), by = SEX) + yrf + s(MONTH), data = ALB_FL_RD_SUBSAMPLED)  # Includes sex and interaction with size and long/lat
 
 # Select best model based on AIC
-AIC(mod1, mod2, mod3, mod4)
+AIC(mod0, mod1, mod2, mod3, mod4)
+
+# Model diagnostics
+appraise(mod4)
 
 # Visualize "best model" outputs
 MOD4 = getViz(mod4)
@@ -121,13 +127,13 @@ print(plot(MOD4, allTerms = T), pages = 1)
 
 
 # With random effects ####
-mod1re = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + s(rf, bs = "re"), data = ALB_FL_RD[FLEET_CODE != "TWN"])
+mod1re = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + s(rf, bs = "re"), data = ALB_FL_RD_SUBSAMPLED)
 
-mod2re = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + SEX + s(rf, bs = "re"), data = ALB_FL_RD[FLEET_CODE != "TWN"])
+mod2re = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + SEX + s(rf, bs = "re"), data = ALB_FL_RD_SUBSAMPLED)
 
-mod3re = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + s(rf, bs = "re"), data = ALB_FL_RD[FLEET_CODE != "TWN"])
+mod3re = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + s(rf, bs = "re"), data = ALB_FL_RD_SUBSAMPLED)
 
-mod4re = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6), by = SEX) + yrf + s(MONTH) + s(rf, bs = "re"), data = ALB_FL_RD[FLEET_CODE != "TWN"])
+mod4re = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6), by = SEX) + yrf + s(MONTH) + s(rf, bs = "re"), data = ALB_FL_RD_SUBSAMPLED)
 
 # Select best model based on AIC
 AIC(mod1re, mod2re, mod3re, mod4re)
