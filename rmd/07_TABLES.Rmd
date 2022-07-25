@@ -10,7 +10,12 @@ FIELD_DEFINITIONS_FT
 SAMPLING_DESIGN_TABLE_FG_SOURCE_FLEET_FT
 ```
 
-<!-- \pagebreak -->
+\pagebreak
+
+```{r AICTable, tab.cap = "Estimates of degrees of freedom (df) and values of Akaike Information Criterion (AIC) for the five Generalized Additive Models fitted to the fork length and round weight data of Indian Ocean albacore"}
+AIC_TABLE_FT 
+```
+
 
 ```{r AnovaTable, tab.cap = "Summary table of analysis of variance of the round weight in tropical tuna.", eval = FALSE}
 ALB_FL_RD_ANOVA_FT

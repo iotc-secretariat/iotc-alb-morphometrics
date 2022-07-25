@@ -209,21 +209,20 @@ SAMPLING_DESIGN_TABLE_SOURCE_FISHERY_GROUP_FT =
 
 ## Bu source, fleet and fishery group ####
 
-SAMPLING_DESIGN_TABLE_FG_SOURCE_FLEET = ALB_FL_RD[, .(N = length(unique(FISH_IDENTIFIER)), FL = paste(min(round(FL), na.rm = TRUE), max(round(FL), na.rm = TRUE), sep = "-"), RD = paste(min(round(RD, 1), na.rm = TRUE), max(round(RD, 1), na.rm = TRUE), sep = "-")), keyby = .(SOURCE, FISHERY_GROUP_CODE, FISHERY_GROUP, FLEET_CODE, FLEET)]
+SAMPLING_DESIGN_TABLE_FG_SOURCE_FLEET = ALB_FL_RD[, .(N = length(unique(FISH_IDENTIFIER)), FL = paste(min(round(FL), na.rm = TRUE), max(round(FL), na.rm = TRUE), sep = "-"), RD = paste(min(round(RD, 1), na.rm = TRUE), max(round(RD, 1), na.rm = TRUE), sep = "-")), keyby = .(SOURCE, FISHERY_GROUP, FLEET)]
 
 SAMPLING_DESIGN_TABLE_FG_SOURCE_FLEET_FT =
   SAMPLING_DESIGN_TABLE_FG_SOURCE_FLEET %>%
   flextable() %>%
   set_header_labels(values = list(
     SOURCE = "Source",
-    FLEET_CODE = "Fleet code",
+    FISHERY_GROUP = "FIshery group",
     FLEET = "Fleet", 
     N = "N", 
     FL = "FL",
     RD = "RD"
   )) %>%
-  flextable::font(fontname = "calibri", part = c("head")) %>%
-  flextable::font(fontname = "calibri", part = c("body")) %>%
+  flextable::font(fontname = "calibri", part = c("all")) %>%
   align(part = "header", j = c("N", "FL", "RD"), align = "center") %>%
   align(part = "body", j = c("N", "FL", "RD"), align = "right") %>%
   border_inner() %>%

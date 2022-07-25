@@ -1,9 +1,11 @@
 print("Initializing data exploration with GAMs...")
 
+# Prepare data set for GAM analysis
 ALB_FL_RD[, rf := factor(paste(LAT_CENTROID, LON_CENTROID, YEAR, MONTH, FLEET_CODE))]
 ALB_FL_RD[, yrf := factor(YEAR, ordered = TRUE)] # ordered factors behave differently in the GAM
 ALB_FL_RD[, SEX := factor(SEX)]
 ALB_FL_RD[, FISHERY_CODE := factor(FISHERY_CODE)]
+ALB_FL_RD[, FLEET_CODE := factor(FLEET_CODE)]
 
 # Subsample the data set with X fish by stratum when N>X
 set.seed(42)
@@ -16,31 +18,89 @@ ALB_FL_RD_SUBSAMPLED = ALB_FL_RD[, .SD[sample(.N, min(N_SUBSAMPLE, .N))], by = .
 
 ## NO RANDOM EFFECT ####
 
-mod0 = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + FISHERY_CODE + yrf + s(MONTH), data = ALB_FL_RD_SUBSAMPLED) # Fishery effect
+mod1 = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH), data = ALB_FL_RD) # No sex effect
 
-mod1 = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH), data = ALB_FL_RD_SUBSAMPLED) # No sex effect
+mod2 = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + SEX, data = ALB_FL_RD)  # Includes sex
 
-mod2 = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + SEX, data = ALB_FL_RD_SUBSAMPLED)  # Includes sex
+mod3 = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH), data = ALB_FL_RD)  # Includes sex and interaction with size
 
-mod3 = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH), data = ALB_FL_RD_SUBSAMPLED)  # Includes sex and interaction with size
+mod4 = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6), by = SEX) + yrf + s(MONTH), data = ALB_FL_RD)  # Includes sex and interaction with size and long/lat
 
-mod4 = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6), by = SEX) + yrf + s(MONTH), data = ALB_FL_RD_SUBSAMPLED)  # Includes sex and interaction with size and long/lat
+mod5 = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6), by = SEX) + yrf + s(MONTH) + FISHERY_CODE + FLEET_CODE, data = ALB_FL_RD)  # Includes sex and interaction with size and long/lat
 
 # Select best model based on AIC
-AIC(mod0, mod1, mod2, mod3, mod4)
+AIC_TABLE = as.data.table(AIC(mod1, mod2, mod3, mod4, mod5), keep.rownames = TRUE)
+
+AIC_TABLE_FT = 
+  flextable(AIC_TABLE) %>% 
+  set_header_labels(values = list(
+    rn = "Model",
+    df = "df",
+    AIC = "AIC"
+  )) %>%
+  flextable::font(fontname = "calibri", part = c("all")) %>%  
+  align(part = "header", align = "center") %>%
+  border_inner() %>% 
+  border_outer() %>%
+  autofit()
 
 # Model diagnostics
-appraise(mod4)
+DIAGNOSTIC_MOD5 = appraise(mod5)
 
-# Visualize "best model" outputs
-MOD4 = getViz(mod4)
+ggsave("../outputs/charts/GAMS/DIAGNOSTIC_GAM5.png", DIAGNOSTIC_MOD5)
 
-windows(); print(plot(MOD4, allTerms = T), pages = 1)
-savePlot("../outputs/charts/GAMS/EFFECT_logFLFemales.png", type = "png")
+# Get predictions
+ALB_FL_RD[, GAM_PREDICTIONS_FIT := predict.gam(mod5, se.fit = TRUE)$fit]
+ALB_FL_RD[, GAM_PREDICTIONS_UPPER := predict.gam(mod5, se.fit = TRUE)$fit + 1.96 * predict.gam(mod5, se.fit = TRUE)$se.fit]
+ALB_FL_RD[, GAM_PREDICTIONS_LOWER := predict.gam(mod5, se.fit = TRUE)$fit - 1.96 * predict.gam(mod5, se.fit = TRUE)$se.fit]
 
-print(plot(MOD4, allTerms = T, select = 1))
+# PLOT.GAM | MGCVIZ
+MOD5 = getViz(mod5)
 
-## PLOT.GAM OPTION 1
+windows(); print(plot(MOD5, allTerms = T), pages = 1)
+savePlot("../outputs/charts/GAMS/EFFECTS_MOD5.png", type = "png")
+
+print(plot(MOD5, allTerms = T, select = 1))
+savePlot("../outputs/charts/GAMS/EFFECTS_MOD5.png", type = "png")
+
+## PLOT.GAM | GRATIA
+# Extract the smooth terms
+#sm_mod5 = gratia::smooth_estimates(mod5, dist = 0.1)
+#sm_mod5_1 = sm_mod5[sm_mod5$smooth == "s(logFL):SEXI", ]
+
+## FL|SEX
+sm_mod5_FLSexF = draw(mod5, residuals = FALSE)[[1]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Female")
+
+sm_mod5_FLSexI = draw(mod5, residuals = FALSE)[[2]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Indeterminate")
+
+sm_mod5_FLSexM = draw(mod5, residuals = FALSE)[[3]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Male")
+
+sm_mod5_FLSexU = draw(mod5, residuals = FALSE)[[4]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Unknown")
+
+FL_SEX = (sm_mod5_FLSexF + sm_mod5_FLSexM) / (sm_mod5_FLSexI + sm_mod5_FLSexU)
+
+ggsave("../outputs/charts/GAMS/MOD_FL_SEX_EFFECTS.png", FL_SEX, width = 10, height = 8)
+
+# MONTH
+
+sm_mod5_Month = draw(mod5, residuals = FALSE)[[5]] & labs(x = "logFL", y = "Partial effect", title = "Month", subtitle = "")
+
+ggsave("../outputs/charts/GAMS/MOD_MONTH_EFFECT.png", sm_mod5_Month, width = 10, height = 8)
+
+## LONG x LAT|SEX
+sm_mod5_LongLatSexF = draw(mod5, residuals = FALSE)[[6]] & labs(x = "Longitude", y = "Latitude", title = "te(Longitude, Latitude)", subtitle = "By: Sex, Female")
+
+sm_mod5_LongLatSexI = draw(mod5, residuals = FALSE)[[7]] & labs(x = "Longitude", y = "Latitude", title = "te(Longitude, Latitude)", subtitle = "By: Sex, Indeterminate")
+
+sm_mod5_LongLatSexM = draw(mod5, residuals = FALSE)[[8]] & labs(x = "Longitude", y = "Latitude", title = "te(Longitude, Latitude)", subtitle = "By: Sex, Male")
+
+sm_mod5_LongLatSexU = draw(mod5, residuals = FALSE)[[9]] & labs(x = "Longitude", y = "Latitude", title = "te(Longitude, Latitude)", subtitle = "By: Sex, Unknown")
+
+LONG_LAT_SEX = (sm_mod5_LongLatSexF + sm_mod5_LongLatSexM) / (sm_mod5_LongLatSexI + sm_mod5_LongLatSexU)
+
+ggsave("../outputs/charts/GAMS/MOD_LONG_LAT_SEX_EFFECTS.png", LONG_LAT_SEX, width = 10, height = 8)
+
+## PLOT.GAM | OPTION 2
 
 opar = par(no.readonly = TRUE)
 par(mfrow=c(4, 3), mar = c(4,2.5,1,1), cex.axis = 1.1, cex.lab = 1.1, oma = c(0,2,0,0))
@@ -53,23 +113,6 @@ abline(h = seq(-2, 2, 1), lty = 1, col = alpha("grey", 0.5),lwd = 0.3)
 # Y-label
 #mtext(text = 'Selected effect on log(Round weight)', side = 2, line = 2.5, cex = 0.9)
 
-
-## PLOT.GAM | OPTION 2
-# Extract the smooth terms
-sm_mod4 = gratia::smooth_estimates(mod4, dist = 0.1)
-sm_mod4_1 = sm_mod4[sm_mod4$smooth == "s(logFL):SEXI", ]
-
-sm_mod4_LongLatSexF = draw(mod4, residuals = FALSE)[[6]] & labs(x = "Longitude", y = "Latitude", title = "te(Longitude, Latitude)", subtitle = "By: Sex, Female")
-
-sm_mod4_LongLatSexI = draw(mod4, residuals = FALSE)[[7]] & labs(x = "Longitude", y = "Latitude", title = "te(Longitude, Latitude)", subtitle = "By: Sex, Immature")
-
-sm_mod4_LongLatSexM = draw(mod4, residuals = FALSE)[[8]] & labs(x = "Longitude", y = "Latitude", title = "te(Longitude, Latitude)", subtitle = "By: Sex, Male")
-
-sm_mod4_LongLatSexU = draw(mod4, residuals = FALSE)[[9]] & labs(x = "Longitude", y = "Latitude", title = "te(Longitude, Latitude)", subtitle = "By: Sex, Unknown")
-
-popo = (sm_mod4_LongLatSexM + sm_mod4_LongLatSexF) / (sm_mod4_LongLatSexI + sm_mod4_LongLatSexU)
-
-ggsave("../outputs/charts/GAMS/test1.png", popo, width = 10, height = 8)
 
 # plt <- plot.gam(mod4)[[5]]
 # plt <- plt[[5]] # plot.gam returns a list of n elements, one per plot
@@ -101,27 +144,6 @@ logFLMales =
 
 savePlot("../outputs/charts/GAMS/EFFECT_logFLFemales.png", type = "png")
 
-
-plot.gam(mod4, select = 1, rug=T, residuals = T)
-plot.gam(mod4, select = 2, scheme=2, too.far=.07, main = ""); maps::map(add=T, fill=T)
-plot.gam(mod4, all.terms = TRUE, select = 3, rug=T, residuals = T)
-plot.gam(mod4, all.terms = TRUE, select = 4, rug=T, residuals = T)
-
-par(mfcol = c(4, 3))
-plot.gam(mod4, all.terms = TRUE, select = 1, residuals = T)
-plot.gam(mod4, all.terms = TRUE, select = 2, residuals = T)
-plot.gam(mod4, all.terms = TRUE, select = 3, residuals = T)
-plot.gam(mod4, all.terms = TRUE, select = 4, residuals = T)
-plot.gam(mod4, all.terms = TRUE, select = 5, scheme = 2, cex.main=0.9); maps::map(add=T, fill=T)
-plot.gam(mod4, all.terms = TRUE, select = 6, scheme = 2, cex.main=0.9); maps::map(add=T, fill=T)
-plot.gam(mod4, all.terms = TRUE, select = 7, scheme = 2, cex.main=0.9); maps::map(add=T, fill=T)
-plot.gam(mod4, all.terms = TRUE, select = 8, scheme = 2, cex.main=0.9); maps::map(add=T, fill=T)
-plot.gam(mod4, all.terms = TRUE, select = 9, residuals = T)
-plot.gam(mod4, all.terms = TRUE, select = 10, residuals = T)
-plot.gam(mod4, all.terms = TRUE, select = 11, residuals = T)
-plot.gam(mod4, all.terms = TRUE, select = 12, residuals = T)
-
-print(plot(MOD4, allTerms = T), pages = 1)
 
 
 
