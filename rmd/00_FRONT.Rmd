@@ -8,11 +8,13 @@
 
 ^3^ Shanghai Ocean University
 
-^4^ Délégation Ifremer Océan Indien
+^4^ Fisheries Resources Institute
 
-^5^ Tokyo University of Marine Science and Technology
+^5^ Délégation Ifremer Océan Indien
 
-^6^ Independent consultant
+^6^ Tokyo University of Marine Science and Technology
+
+^7^ Independent consultant
 
 ## Abstract
 

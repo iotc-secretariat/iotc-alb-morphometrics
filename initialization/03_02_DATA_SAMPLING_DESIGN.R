@@ -216,7 +216,7 @@ SAMPLING_DESIGN_TABLE_FG_SOURCE_FLEET_FT =
   flextable() %>%
   set_header_labels(values = list(
     SOURCE = "Source",
-    FISHERY_GROUP = "FIshery group",
+    FISHERY_GROUP = "Fishery group",
     FLEET = "Fleet", 
     N = "N", 
     FL = "FL",

@@ -30,8 +30,7 @@ FIELD_DEFINITIONS = data.table(read.xlsx("../inputs/data/Metadata_Table.xlsx", s
 FIELD_DEFINITIONS_FT =
   FIELD_DEFINITIONS %>%
   flextable() %>%
-  flextable::font(fontname = "calibri", part = c("head")) %>%
-  flextable::font(fontname = "calibri", part = c("body")) %>%
+  flextable::font(fontname = "calibri", part = c("all")) %>%
   flextable::fontsize(size = 9) %>%
   border_inner() %>%
   border_outer(border = fp_border(width = 2)) %>%

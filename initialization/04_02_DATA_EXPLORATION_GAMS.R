@@ -4,35 +4,34 @@ print("Initializing data exploration with GAMs...")
 ALB_FL_RD[, rf := factor(paste(LAT_CENTROID, LON_CENTROID, YEAR, MONTH, FLEET_CODE))]
 ALB_FL_RD[, yrf := factor(YEAR, ordered = TRUE)] # ordered factors behave differently in the GAM
 ALB_FL_RD[, SEX := factor(SEX)]
+#ALB_FL_RD[, MONTH := as.numeric(MONTH)]
 ALB_FL_RD[, FISHERY_CODE := factor(FISHERY_CODE)]
 ALB_FL_RD[, FLEET_CODE := factor(FLEET_CODE)]
 
 # Subsample the data set with X fish by stratum when N>X
-set.seed(42)
-
-N_SUBSAMPLE = 10
-
-ALB_FL_RD_SUBSAMPLED = ALB_FL_RD[, .SD[sample(.N, min(N_SUBSAMPLE, .N))], by = .(LAT_CENTROID, LON_CENTROID, YEAR, MONTH, FLEET_CODE)]
+# set.seed(42)
+# N_SUBSAMPLE = 10
+# ALB_FL_RD_SUBSAMPLED = ALB_FL_RD[, .SD[sample(.N, min(N_SUBSAMPLE, .N))], by = .(LAT_CENTROID, LON_CENTROID, YEAR, MONTH, FLEET_CODE)]
 
 # GAM MODELS ####
 
 ## NO RANDOM EFFECT ####
 
-mod1 = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH), data = ALB_FL_RD) # No sex effect
+GAM1 = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH), data = ALB_FL_RD) # No sex effect
 
-mod2 = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + SEX, data = ALB_FL_RD)  # Includes sex
+GAM2 = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + SEX, data = ALB_FL_RD)  # Includes sex
 
-mod3 = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH), data = ALB_FL_RD)  # Includes sex and interaction with size
+GAM3 = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH), data = ALB_FL_RD)  # Includes sex and interaction with size
 
-mod4 = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6), by = SEX) + yrf + s(MONTH), data = ALB_FL_RD)  # Includes sex and interaction with size and long/lat
+GAM4 = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6), by = SEX) + yrf + s(MONTH), data = ALB_FL_RD)  # Includes sex and interaction with size and long/lat
 
-mod5 = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6), by = SEX) + yrf + s(MONTH) + FISHERY_CODE + FLEET_CODE, data = ALB_FL_RD)  # Includes sex and interaction with size and long/lat
+GAM5 = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6), by = SEX) + yrf + s(MONTH) + FISHERY_CODE + FLEET_CODE, data = ALB_FL_RD)  # Includes sex and interaction with size and long/lat
 
 # Select best model based on AIC
-AIC_TABLE = as.data.table(AIC(mod1, mod2, mod3, mod4, mod5), keep.rownames = TRUE)
+AIC_TABLE_GAMS = as.data.table(AIC(GAM1, GAM2, GAM3, GAM4, GAM5), keep.rownames = TRUE)
 
-AIC_TABLE_FT = 
-  flextable(AIC_TABLE) %>% 
+AIC_TABLE_GAMS_FT = 
+  flextable(AIC_TABLE_GAMS) %>% 
   set_header_labels(values = list(
     rn = "Model",
     df = "df",
@@ -45,23 +44,23 @@ AIC_TABLE_FT =
   autofit()
 
 # Model diagnostics
-DIAGNOSTIC_MOD5 = appraise(mod5)
+DIAGNOSTIC_GAM5 = appraise(GAM5)
 
-ggsave("../outputs/charts/GAMS/DIAGNOSTIC_GAM5.png", DIAGNOSTIC_MOD5)
+ggsave("../outputs/charts/GAMS/DIAGNOSTIC_GAM5.png", DIAGNOSTIC_GAM5)
 
 # Get predictions
-ALB_FL_RD[, GAM_PREDICTIONS_FIT := predict.gam(mod5, se.fit = TRUE)$fit]
-ALB_FL_RD[, GAM_PREDICTIONS_UPPER := predict.gam(mod5, se.fit = TRUE)$fit + 1.96 * predict.gam(mod5, se.fit = TRUE)$se.fit]
-ALB_FL_RD[, GAM_PREDICTIONS_LOWER := predict.gam(mod5, se.fit = TRUE)$fit - 1.96 * predict.gam(mod5, se.fit = TRUE)$se.fit]
+ALB_FL_RD[, GAM_PREDICTIONS_FIT := predict.gam(GAM5, se.fit = TRUE)$fit]
+ALB_FL_RD[, GAM_PREDICTIONS_UPPER := predict.gam(GAM5, se.fit = TRUE)$fit + 1.96 * predict.gam(GAM5, se.fit = TRUE)$se.fit]
+ALB_FL_RD[, GAM_PREDICTIONS_LOWER := predict.gam(GAM5, se.fit = TRUE)$fit - 1.96 * predict.gam(GAM5, se.fit = TRUE)$se.fit]
 
 # PLOT.GAM | MGCVIZ
-MOD5 = getViz(mod5)
+GAM5VIZ = getViz(GAM5)
 
-windows(); print(plot(MOD5, allTerms = T), pages = 1)
-savePlot("../outputs/charts/GAMS/EFFECTS_MOD5.png", type = "png")
+windows(); print(plot(GAM5VIZ, allTerms = T), pages = 1)
+savePlot("../outputs/charts/GAMS/EFFECTS_GAM5.png", type = "png")
 
-print(plot(MOD5, allTerms = T, select = 1))
-savePlot("../outputs/charts/GAMS/EFFECTS_MOD5.png", type = "png")
+#print(plot(GAM5VIZ, allTerms = T, select = 1))
+#savePlot("../outputs/charts/GAMS/EFFECTS_GAM5.png", type = "png")
 
 ## PLOT.GAM | GRATIA
 # Extract the smooth terms
@@ -69,13 +68,13 @@ savePlot("../outputs/charts/GAMS/EFFECTS_MOD5.png", type = "png")
 #sm_mod5_1 = sm_mod5[sm_mod5$smooth == "s(logFL):SEXI", ]
 
 ## FL|SEX
-sm_mod5_FLSexF = draw(mod5, residuals = FALSE)[[1]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Female")
+sm_mod5_FLSexF = draw(GAM5, residuals = FALSE)[[1]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Female")
 
-sm_mod5_FLSexI = draw(mod5, residuals = FALSE)[[2]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Indeterminate")
+sm_mod5_FLSexI = draw(GAM5, residuals = FALSE)[[2]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Indeterminate")
 
-sm_mod5_FLSexM = draw(mod5, residuals = FALSE)[[3]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Male")
+sm_mod5_FLSexM = draw(GAM5, residuals = FALSE)[[3]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Male")
 
-sm_mod5_FLSexU = draw(mod5, residuals = FALSE)[[4]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Unknown")
+sm_mod5_FLSexU = draw(GAM5, residuals = FALSE)[[4]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Unknown")
 
 FL_SEX = (sm_mod5_FLSexF + sm_mod5_FLSexM) / (sm_mod5_FLSexI + sm_mod5_FLSexU)
 

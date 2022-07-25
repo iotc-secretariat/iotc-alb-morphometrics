@@ -39,10 +39,10 @@ where _i_ indicates each fish and s() represents non-parametric smoothing terms.
 
 ### Mean regression models
 
-We used mean linear regression models to derive a univariate relationship for predicting round weight from observations of fork length and then assessed the influence of other factors on weight predictions. In addition to fork length (FL), we included the following categorical covariates in the model: gender (SEX), year of capture (YEAR), month of capture (MONTH), stock assessment area (AREA), fishery (FISHERY), and fishing fleet (FLEET). Interactions between sex and size and sex and area were included in the model. The full model fitted to the morphometric data was:
+We used mean linear regression models to derive a univariate relationship for predicting round weight from observations of fork length and then assessed the influence of other factors on weight predictions. In addition to fork length (FL), we included the following categorical covariates in the model: gender (SEX), year of capture (YEAR), month of capture (MONTH), stock assessment area (AREA), fishery (FISHERY), and fishing fleet (FLEET). Interactions between sex and size, sex and area, and area and size were included in the model. The full model fitted to the morphometric data was:
 
 \begin{equation}
-\log_{10}(RD_i) = \log_{10}(FL_i) + SEX + \log_{10}(FL_i):SEX + YEAR + MONTH + AREA + AREA:SEX + FISHERY + FLEET + \epsilon_{i}
+\log_{10}(RD_i) = \log_{10}(FL_i) + AREA + SEX + YEAR + FISHERY + MONTH + FLEET + \log_{10}(FL_i):SEX + AREA:log10FL + AREA:SEX + \epsilon_{i}
 (\#eq:lm1)
 \end{equation}
 

@@ -12,12 +12,13 @@ SAMPLING_DESIGN_TABLE_FG_SOURCE_FLEET_FT
 
 \pagebreak
 
-```{r AICTable, tab.cap = "Estimates of degrees of freedom (df) and values of Akaike Information Criterion (AIC) for the five Generalized Additive Models fitted to the fork length and round weight data of Indian Ocean albacore"}
-AIC_TABLE_FT 
+```{r GAMsAICTable, tab.cap = "Estimates of degrees of freedom (df) and values of Akaike Information Criterion (AIC) for the five Generalized Additive Models fitted to the fork length and round weight data of Indian Ocean albacore"}
+AIC_TABLE_GAMS_FT 
 ```
 
+\pagebreak
 
-```{r AnovaTable, tab.cap = "Summary table of analysis of variance of the round weight in tropical tuna.", eval = FALSE}
-ALB_FL_RD_ANOVA_FT
+```{r AnovaTableLM, tab.cap = "Summary table of analysis of variance of the round weight of Indian Ocean albacore for the best linear model selected based on the lowest AIC. df = degrees of freedom"}
+ANOVA_TABLE_LM_ALB_FL_RD_ALL_FT
 ```
 
