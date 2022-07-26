@@ -7,5 +7,5 @@ setwd("..")
 render("rmd/00_DOCX.Rmd",
        output_format = "word_document2",
        output_dir    = "outputs/",
-       output_file = "Albacore-Length-Weight-Relationship.docx")
+       output_file = "IOTC-2022-WPTmT08-06.docx")
 

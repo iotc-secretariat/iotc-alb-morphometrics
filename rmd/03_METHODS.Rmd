@@ -41,11 +41,13 @@ where _i_ indicates each fish and s() represents non-parametric smoothing terms.
 
 We used mean linear regression models to derive a univariate relationship for predicting round weight from observations of fork length and then assessed the influence of other factors on weight predictions. In addition to fork length (FL), we included the following categorical covariates in the model: gender (SEX), year of capture (YEAR), month of capture (MONTH), stock assessment area (AREA), fishery (FISHERY), and fishing fleet (FLEET). Interactions between sex and size, sex and area, and area and size were included in the model. The full model fitted to the morphometric data was:
 
+
+
 \begin{equation}
 \log_{10}(RD_i) = \log_{10}(FL_i) + AREA + SEX + YEAR + FISHERY + MONTH + FLEET + \log_{10}(FL_i):SEX + AREA:log10FL + AREA:SEX + \epsilon_{i}
 (\#eq:lm1)
 \end{equation}
 
-The model residuals $\epsilon_{i}$ were assumed to be independent and identically distributed normal random variables with mean zero and constant variance. We log10-transformed the variables to represent the assumption that measurement errors in weights are multiplicative. Predictions of the parameters accounted for bias due to log10-transformation [@Smith1993]. Assumptions of homoscedasticity and Gaussian distribution were checked through the residuals. Models were evaluated using the Akaike information criterion (AIC). Statistical analyses were performed in R version 4.1.0 (R Core Team, 2022). 
+The model residuals $\epsilon_{i}$ were assumed to be independent and identically distributed normal random variables with mean zero and constant variance. We log10-transformed the variables to represent the assumption that measurement errors in weights are multiplicative. Predictions of the parameters accounted for bias due to log10-transformation [@Smith1993]. Assumptions of homoscedasticity and Gaussian distribution were checked through the residuals. The best model was selected from stepwise regression analysis based on the Akaike information criterion (AIC). Statistical analyses were performed in R version 4.1.0 (R Core Team, 2022). 
 
 ### Impact on inputs for stock assessment

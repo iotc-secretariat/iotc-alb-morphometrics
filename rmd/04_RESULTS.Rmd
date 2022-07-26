@@ -6,4 +6,5 @@ The GAM including all covariates (Eq. \@ref(eq:gam5)) had the lowest AIC and exp
 
 ### Linear models
 
-As for the GAMS, the linear model including all covariates had the lowest AIC. All the effects were found to be statistically significant, and the most important effect was area (**Table \@ref(tab:AnovaTableLM)**).
+The linear model including all covariates except fishery had the lowest AIC. All effects kept in the model were found to be highly statistically significant. However, each of them explained a small percentage of total variation as compared to fork length. After accounting for length, the most important effect explaining weight was the area of origin of the fish (**Table \@ref(tab:AnovaTableLM)**). The relationship was also found to vary with sex, with males having smaller weights than females.
+

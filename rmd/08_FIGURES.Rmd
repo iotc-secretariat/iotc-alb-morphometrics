@@ -29,8 +29,8 @@ include_graphics("../outputs/charts/GAMS/MOD_FL_SEX_EFFECTS.png")
 include_graphics("../outputs/charts/GAMS/MOD_LONG_LAT_SEX_EFFECTS.png")
 ```
 
-<!-- \pagebreak -->
+\pagebreak
 
-```{r ModelFitsByArea, fig.cap = "Relationships between fork length (cm) and round weight (kg) for Indian Ocean albacore estimated by large stock assessment area. The solid line corresponds to the mean regression fitted to the log-transformed data", eval = FALSE}
+```{r ModelFitsByArea, fig.cap = "Relationships between fork length (cm) and round weight (kg) for Indian Ocean albacore estimated by large stock assessment area. The black solid line corresponds to the mean regression fitted to the log-transformed data. The red solid line corresponds to the current IOTC relationship (Penney 1994)"}
 include_graphics("../outputs/charts/DESCRIPTION/SCATTERPLOTS/ALB_FL_RD_AREA.png")
 ```

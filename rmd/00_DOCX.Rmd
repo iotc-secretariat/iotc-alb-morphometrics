@@ -10,8 +10,8 @@ output:
 csl: iotc.csl
 bibliography: ALBMorpho.bib
 link-citations: yes
-# nocite:
-# - "@CoreTeam2022"
+nocite:
+- "@CoreTeam2022"
 ---
   
 ```{r general_options, echo=FALSE}
@@ -79,5 +79,10 @@ pn = function(number, big.mark = ",") {
 
 \pagebreak
 
-```{r child = '90_REFERENCES.Rmd'}
+```{r child = "09_REFERENCES.Rmd"}
+```
+
+\pagebreak
+
+```{r child = "10_01_APPENDIX_1.Rmd"}
 ```
