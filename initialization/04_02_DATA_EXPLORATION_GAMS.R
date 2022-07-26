@@ -4,7 +4,7 @@ print("Initializing data exploration with GAMs...")
 ALB_FL_RD[, rf := factor(paste(LAT_CENTROID, LON_CENTROID, YEAR, MONTH, FLEET_CODE))]
 ALB_FL_RD[, yrf := factor(YEAR, ordered = TRUE)] # ordered factors behave differently in the GAM
 ALB_FL_RD[, SEX := factor(SEX)]
-#ALB_FL_RD[, MONTH := as.numeric(MONTH)]
+ALB_FL_RD[, MONTH := as.numeric(MONTH)]
 ALB_FL_RD[, FISHERY_CODE := factor(FISHERY_CODE)]
 ALB_FL_RD[, FLEET_CODE := factor(FLEET_CODE)]
 
@@ -46,7 +46,8 @@ AIC_TABLE_GAMS_FT =
 # Model diagnostics
 DIAGNOSTIC_GAM5 = appraise(GAM5)
 
-ggsave("../outputs/charts/GAMS/DIAGNOSTIC_GAM5.png", DIAGNOSTIC_GAM5)
+ggsave("../outputs/charts/GAMS/DIAGNOSTIC_GAM5.png", DIAGNOSTIC_GAM5, width = 8, height = 6)
+ggsave("../outputs/charts/GAMS/DIAGNOSTIC_GAM5.png", DIAGNOSTIC_GAM5, width = 12, height = 6/8*12)
 
 # Get predictions
 ALB_FL_RD[, GAM_PREDICTIONS_FIT := predict.gam(GAM5, se.fit = TRUE)$fit]
@@ -68,13 +69,13 @@ savePlot("../outputs/charts/GAMS/EFFECTS_GAM5.png", type = "png")
 #sm_mod5_1 = sm_mod5[sm_mod5$smooth == "s(logFL):SEXI", ]
 
 ## FL|SEX
-sm_mod5_FLSexF = draw(GAM5, residuals = FALSE)[[1]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Female")
+sm_mod5_FLSexF = draw(GAM5, residuals = FALSE)[[1]] & labs(x = "logFL", y = "Partial effect", title = "s(log10FL)", subtitle = "By: Sex, Female")
 
-sm_mod5_FLSexI = draw(GAM5, residuals = FALSE)[[2]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Indeterminate")
+sm_mod5_FLSexI = draw(GAM5, residuals = FALSE)[[2]] & labs(x = "logFL", y = "Partial effect", title = "s(log10FL)", subtitle = "By: Sex, Indeterminate")
 
-sm_mod5_FLSexM = draw(GAM5, residuals = FALSE)[[3]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Male")
+sm_mod5_FLSexM = draw(GAM5, residuals = FALSE)[[3]] & labs(x = "logFL", y = "Partial effect", title = "s(log10FL)", subtitle = "By: Sex, Male")
 
-sm_mod5_FLSexU = draw(GAM5, residuals = FALSE)[[4]] & labs(x = "logFL", y = "Partial effect", title = "log10(Fork length)", subtitle = "By: Sex, Unknown")
+sm_mod5_FLSexU = draw(GAM5, residuals = FALSE)[[4]] & labs(x = "logFL", y = "Partial effect", title = "s(log10FL)", subtitle = "By: Sex, Unknown")
 
 FL_SEX = (sm_mod5_FLSexF + sm_mod5_FLSexM) / (sm_mod5_FLSexI + sm_mod5_FLSexU)
 
@@ -82,9 +83,9 @@ ggsave("../outputs/charts/GAMS/MOD_FL_SEX_EFFECTS.png", FL_SEX, width = 10, heig
 
 # MONTH
 
-sm_mod5_Month = draw(mod5, residuals = FALSE)[[5]] & labs(x = "logFL", y = "Partial effect", title = "Month", subtitle = "")
+sm_mod5_Month = draw(mod5, residuals = FALSE)[[5]] & labs(x = "Month", y = "Partial effect", title = "", subtitle = "") + theme(plot.margin = grid::unit(c(0, 0, 0, 0), "mm"))
 
-ggsave("../outputs/charts/GAMS/MOD_MONTH_EFFECT.png", sm_mod5_Month, width = 10, height = 8)
+ggsave("../outputs/charts/GAMS/MOD_MONTH_EFFECT.png", sm_mod5_Month, width = 8, height = 4.5)
 
 ## LONG x LAT|SEX
 sm_mod5_LongLatSexF = draw(mod5, residuals = FALSE)[[6]] & labs(x = "Longitude", y = "Latitude", title = "te(Longitude, Latitude)", subtitle = "By: Sex, Female")
@@ -123,29 +124,25 @@ abline(h = seq(-2, 2, 1), lty = 1, col = alpha("grey", 0.5),lwd = 0.3)
 #   scale_fill_viridis_c(option = "plasma")
 # 
 
-logFLFemales = 
-  plot(sm(MOD4, 1)) +
-  l_fitLine(alpha = 0.6, color = "red", size = 1.2) + 
-  l_rug(alpha = 0.8) +
-  l_ciPoly(level = 0.95, colour = NA, fill = alpha("red", 0.4)) +
-  labs(y = "Selected effect on log(Round weight)", title = "Females") +
-  theme(panel.grid.major = element_line(), panel.grid.minor = element_line(linetype = 2)) +
-  scale_y_continuous(breaks = seq(-2, 2, 1), minor_breaks = seq(-2, 2, 0.5))
-
-logFLMales = 
-  plot(sm(MOD4, 3)) +
-  l_fitLine(alpha = 0.6, color = "blue", size = 1.2) + 
-  l_rug(alpha = 0.8) +
-  l_ciPoly(level = 0.95, colour = NA, fill = alpha("blue", 0.4)) +
-  labs(y = "Selected effect on log(Round weight)", title = "Males") + 
-  theme(panel.grid.major = element_line(), panel.grid.minor = element_line(linetype = 2)) +
-  scale_y_continuous(breaks = seq(-2, 2, 1), minor_breaks = seq(-2, 2, 0.5))
-
-savePlot("../outputs/charts/GAMS/EFFECT_logFLFemales.png", type = "png")
-
-
-
-
+# logFLFemales = 
+#   plot(sm(MOD4, 1)) +
+#   l_fitLine(alpha = 0.6, color = "red", size = 1.2) + 
+#   l_rug(alpha = 0.8) +
+#   l_ciPoly(level = 0.95, colour = NA, fill = alpha("red", 0.4)) +
+#   labs(y = "Selected effect on log(Round weight)", title = "Females") +
+#   theme(panel.grid.major = element_line(), panel.grid.minor = element_line(linetype = 2)) +
+#   scale_y_continuous(breaks = seq(-2, 2, 1), minor_breaks = seq(-2, 2, 0.5))
+# 
+# logFLMales = 
+#   plot(sm(MOD4, 3)) +
+#   l_fitLine(alpha = 0.6, color = "blue", size = 1.2) + 
+#   l_rug(alpha = 0.8) +
+#   l_ciPoly(level = 0.95, colour = NA, fill = alpha("blue", 0.4)) +
+#   labs(y = "Selected effect on log(Round weight)", title = "Males") + 
+#   theme(panel.grid.major = element_line(), panel.grid.minor = element_line(linetype = 2)) +
+#   scale_y_continuous(breaks = seq(-2, 2, 1), minor_breaks = seq(-2, 2, 0.5))
+# 
+# savePlot("../outputs/charts/GAMS/EFFECT_logFLFemales.png", type = "png")
 
 # With random effects ####
 mod1re = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + s(rf, bs = "re"), data = ALB_FL_RD_SUBSAMPLED)

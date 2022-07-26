@@ -1,7 +1,9 @@
-# Appendix
+# Appendix: Diagnostic for the best selected models {#Diagnostics}
 
-## Appendix I: Diagnostic for the best selected models {#GAMsDiag}
-
-```{r DiagnosticGAM5, fig.cap = "Diagnostic of the best selected generalized additive model (Eq. 5) of round weights", fig.width = 12, fig.height = 6.75}
+```{r DiagnosticGAM5, fig.cap = "Diagnostic of the best selected generalized additive model of round weights (Eq. 5)"}
 include_graphics("../outputs/charts/GAMS/DIAGNOSTIC_GAM5.png")
+```
+
+```{r DiagnosticLM, fig.cap = "Diagnostic of the best selected linear model of round weights", eval = FALSE}
+include_graphics("../outputs/charts/")
 ```

@@ -22,10 +22,12 @@ stepAIC(LM_ALB_FL_RD_FULL)
 LM_ALB_FL_RD_ALL_FINAL = lm(log10RD ~ log10FL + SA_AREA_CODE + SEX + YEAR + MONTH + FLEET_CODE + log10FL:SA_AREA_CODE + log10FL:SEX, data = ALB_FL_RD)
 
 anova(LM_ALB_FL_RD_ALL_FINAL)
+ANOVA_TABLE_LM_ALB_FL_RD_ALL_FINAL =  anova_table(LM_ALB_FL_RD_ALL_FINAL)
+  
 summary(LM_ALB_FL_RD_ALL_FINAL)
 
 ANOVA_TABLE_LM_ALB_FL_RD_FINAL_FT = 
-  anova_table(LM_ALB_FL_RD_ALL_FINAL) %>%
+  ANOVA_TABLE_LM_ALB_FL_RD_ALL_FINAL %>%
   flextable() %>%
   flextable::font(fontname = "calibri", part = c("all")) %>%
   align(part = "header", align = "center") %>%

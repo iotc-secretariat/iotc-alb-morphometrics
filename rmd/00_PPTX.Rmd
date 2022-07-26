@@ -1,0 +1,189 @@
+---
+title: "Preliminary analysis of the variability in the length-weight relationship of Indian Ocean albacore"
+subtitle: "8^th^ session of the IOTC Working Party on Temperate Tuna - July 25^th^ - July 29^th^ 2022"
+author: "[IOTC Secretariat](mailto:IOTC-Secretariat@fao.org)"
+csl: iotc.csl
+bibliography: AlbMorpho.bib
+link-citations: yes
+nocite:
+- "@Setyadji2012"
+- "@Dhurmeea2016"
+- "@Huang1991"
+- "Hsu1999"
+- "@Penney1994"
+---
+  
+```{r general_options,echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE, tidy.opts = list(width.cutoff = 60), tidy = TRUE, size = "small", fig.width = 12, fig.height = 6.75,  out.width = "1080px")
+```
+
+---
+
+## Background
+
+Morphometric relationships and conversion factors are instrumental in fisheries science to (i) harmonize size-frequency data and (ii) compute weight from length so as to:
+
++ derive raising factors for extrapolation;
++ estimate the species composition of the catch;
++ compute reporting coverage for catches reported in numbers.
+
+---
+
+# MATERIALS
+
+--- 
+
+## Several relationships available
+
+```{r MorphoParams}
+kable(MORPHO_PARAMS_ALB[Target == "RD", -c("Equation", "Source", "Target", "Type", "Area", "MinRD", "MaxRD", "Comment")], format.args = list(big.mark = ","), caption = "Length-weight relationships available for Indian Ocean albacore. LL = Longline; PL = Pole and line; GN = Gillnet; PS = Purse seine")
+```
+
+---
+
+## Collation of >480,000 samples
+
+```{r DesignTable}
+kable(SAMPLING_DESIGN_TABLE_SOURCE_FISHERY_GROUP, caption = "", align = c("l", "l", "r", "r", "r"), col.names = c("Source", "Fishery group", "N", "Fork length", "Round weight"), format.args = list(big.mark = ","))
+```
+
+---
+
+## Origin of albacore samples
+
+```{r SamplesMap, fig.cap = paste0("Spatial distribution of albacore tunas sampled for morphometrics (n = ", prettyNum(ALB_FL_RD[!is.na(LON_CENTROID), .N], big.mark = ","), ")")}
+include_graphics("../outputs/charts/DESCRIPTION/MAPS/MAP_SAMPLES_INTENSITY_FISHERY_GROUP.png")
+```
+
+---
+
+## Most samples from longline observers
+
+```{r FLDistFisheryGroup, fig.cap = "Distribution of fork length (cm) by fishery group in the data set"}
+include_graphics("../outputs/charts/DESCRIPTION/DESIGN/FL_DISTRIBUTION_FISHERY_GROUP_HISTOGRAM.png")
+```
+
+---
+
+## >90% of the samples from Taiwan,China
+
+```{r FLDistFleet, fig.cap = "Distribution of fork length (cm) by longline fleet in the data set"}
+include_graphics("../outputs/charts/DESCRIPTION/DESIGN/FL_DISTRIBUTION_LL_FLEET_HISTOGRAM.png")
+```
+
+---
+
+## Overview of the morphometric data
+
+```{r FLRDBySource, fig.cap = "Relationship between fork length (cm) and round weight for each data source"}
+include_graphics("../outputs/charts/DESCRIPTION/SCATTERPLOTS/MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE_FACETED.png")
+```
+
+---
+
+# Methods
+
+---
+
+## Generalized Additive Models
+
+$$\log_{10}RD_i = SEX + s(\log_{10}FL_i:SEX) + te(LON, LAT):SEX + YEAR + s(MONTH) + FISHERY + FLEET + \epsilon_i$$
+
+<br>
+
++ RD = round weight (kg)
++ FL = fork length (cm)
++ s() = local smoothers
++ te() is a 2-dimensional tensor product of longitude and latitude
+
+---
+
+## Linear models
+
+$$\log_{10}(RD_i) = \log_{10}(FL_i) + AREA + SEX + YEAR + FISHERY + MONTH + FLEET + \log_{10}(FL_i):SEX + AREA:log10FL + AREA:SEX + \epsilon_{i}$$
+
+<br>
+
++ RD = round weight (kg)
++ FL = fork length (cm)
+
+Selection of the best model based on stepwise regression analysis based on the Akaike information criterion (AIC)
+
+---
+
+# RESULTS: GAMS
+
+---
+
+## Assessing the best model
+
+```{r GAMsAICTable}
+kable(AIC_TABLE_GAMS, col.names = c("Model", "df", "AIC"), caption = "Estimates of degrees of freedom (df) and values of Akaike Information Criterion (AIC) for the five Generalized Additive Models fitted to the fork length and round weight data of Indian Ocean albacore")
+```
+
+---
+
+## Partial effects of length by sex
+
+```{r GAMFLSexEffect, fig.cap = "Partial effect of fork length by sex on log10 values of round weight of Indian Ocean albacore"}
+include_graphics("../outputs/charts/GAMS/MOD_FL_SEX_EFFECTS.png")
+```
+
+---
+
+## Partial effects of long/lat by sex
+
+```{r GAMLongLatSexEffect, fig.cap = "Partial effect of longitude and latitude by sex on log10 values of round weight of Indian Ocean albacore"}
+include_graphics("../outputs/charts/GAMS/MOD_LONG_LAT_SEX_EFFECTS.png")
+```
+
+## Partial effects of month
+
+```{r GAMMonthEffect, fig.cap = "Partial effect of month on log10 values of round weight of Indian Ocean albacore"}
+include_graphics("../outputs/charts/GAMS/MOD_MONTH_EFFECT.png")
+```
+
+---
+
+## Diagnostic plots
+
+```{r DiagnosticGAM5, fig.cap = "Diagnostic of the best selected generalized additive model of round weights"}
+include_graphics("../outputs/charts/GAMS/DIAGNOSTIC_GAM5.png")
+```
+
+---
+
+# RESULTS: LMS
+
+---
+
+## Best model includes
+
+```{r AnovaTableBestLM}
+kable(ANOVA_TABLE_LM_ALB_FL_RD_ALL_FINAL, caption = "")
+```
+
+---
+
+## Univariate model fitted to the data set
+
+```{r LMOnlyFL, fig.cap = "Comparison of the relationships between fork length (cm) and round weight (kg) fitted to the overall data set (red solid line) and currently used by the IOTC (blue solid line) (Penney 1994)"}
+include_graphics("../outputs/charts/LMS/ALB_FL_RD_CURVES.png")
+```
+
+---
+
+## Effect of area on the relationship
+
+```{r ModelFitsByArea, fig.cap = "Relationships between fork length (cm) and round weight (kg) for Indian Ocean albacore estimated by large stock assessment area. Black solid line = model; red solid line = current IOTC relationship (Penney 1994)"}
+include_graphics("../outputs/charts/LMS/ALB_FL_RD_AREA_FIT_WITH_PENNEY.png")
+```
+
+---
+
+## Diagnostic plots
+
+
+
+
+## References

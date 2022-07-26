@@ -66,6 +66,8 @@ MAP_SAMPLES_INTENSITY_FG  = (MAP_SAMPLES_INTENSITY_BB + MAP_SAMPLES_INTENSITY_LI
 
 ggsave("../outputs/charts/DESCRIPTION/MAPS/MAP_SAMPLES_INTENSITY_FISHERY_GROUP.png", MAP_SAMPLES_INTENSITY_FG, width = 14, height = 12/16*14)
 
+ggsave("../outputs/charts/DESCRIPTION/MAPS/MAP_SAMPLES_INTENSITY_FISHERY_GROUP_PPTX.png", MAP_SAMPLES_INTENSITY_FG, width = 14, height = 10.5, units = "in")
+
 ## Maps by fleet for longline fisheries ####
 
 MAP_SAMPLES_INTENSITY_LL_CHN = map_sample_intensity(SAMPLES_BY_AREA_FISHERY_GROUP_FLEET_SF, "LL", "CHN") + labs(title = "China")

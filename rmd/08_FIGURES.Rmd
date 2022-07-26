@@ -1,36 +1,41 @@
-
 # Figures
 
-```{r SamplesMap, fig.cap = paste0("Spatial distribution of albacore tunas sampled for morphometrics (n = ", prettyNum(ALB_FL_RD[!is.na(LON_CENTROID), .N], big.mark = ","), ")"), fig.width = 12, fig.height = 6.75}
+```{r SamplesMap, fig.cap = paste0("Spatial distribution of albacore tunas sampled for morphometrics (n = ", prettyNum(ALB_FL_RD[!is.na(LON_CENTROID), .N], big.mark = ","), ")")}
 include_graphics("../outputs/charts/DESCRIPTION/MAPS/MAP_SAMPLES_INTENSITY_FISHERY_GROUP.png")
 ```
 
 \pagebreak
 
-```{r ScatterplotBySource, fig.cap = "Relationship between fork length (cm) and round weight (kg) for albacore by data source available for the study. ROS = Regional Observer Scheme; OFDC = Overseas Fisheries Development Council; SHOU = Shanghai Ocean University; UoM = University of Mauritius; IRD = Institut de Recherche pour le Développement", fig.width = 12, fig.height = 6.75}
+```{r ScatterplotBySource, fig.cap = "Relationship between fork length (cm) and round weight (kg) for albacore by data source available for the study. ROS = Regional Observer Scheme; OFDC = Overseas Fisheries Development Council; SHOU = Shanghai Ocean University; UoM = University of Mauritius; IRD = Institut de Recherche pour le Développement"}
 include_graphics("../outputs/charts/DESCRIPTION/SCATTERPLOTS/MORPHOMETRIC_DATA_ALB_FL_RD_SOURCE_FACETED.png")
 ```
 
 \pagebreak
 
-```{r GAMMonthEffect, fig.cap = "Partial effect of month on log10 values of round weight of Indian Ocean albacore", fig.width = 12, fig.height = 6.75}
+```{r GAMMonthEffect, fig.cap = "Partial effect of month on log10 values of round weight of Indian Ocean albacore"}
 include_graphics("../outputs/charts/GAMS/MOD_MONTH_EFFECT.png")
 ```
 
 \pagebreak
 
-```{r GAMFLSexEffect, fig.cap = "Partial effect of fork length by sex on log10 values of round weight of Indian Ocean albacore", fig.width = 12, fig.height = 6.75}
+```{r GAMFLSexEffect, fig.cap = "Partial effect of fork length by sex on log10 values of round weight of Indian Ocean albacore"}
 include_graphics("../outputs/charts/GAMS/MOD_FL_SEX_EFFECTS.png")
 ```
 
 \pagebreak
 
-```{r GAMLongLatSexEffect, fig.cap = "Partial effect of longitude and latitude by sex on log10 values of round weight of Indian Ocean albacore", fig.width = 12, fig.height = 6.75}
+```{r GAMLongLatSexEffect, fig.cap = "Partial effect of longitude and latitude by sex on log10 values of round weight of Indian Ocean albacore"}
 include_graphics("../outputs/charts/GAMS/MOD_LONG_LAT_SEX_EFFECTS.png")
 ```
 
 \pagebreak
 
+```{r LMOnlyFL, fig.cap = "Comparison of the relationships between fork length (cm) and round weight (kg) fitted to the overall data set (red solid line) and currently used by the IOTC (blue solid line) (Penney 1994)"}
+include_graphics("../outputs/charts/LMS/ALB_FL_RD_CURVES.png")
+```
+
+\pagebreak
+
 ```{r ModelFitsByArea, fig.cap = "Relationships between fork length (cm) and round weight (kg) for Indian Ocean albacore estimated by large stock assessment area. The black solid line corresponds to the mean regression fitted to the log-transformed data. The red solid line corresponds to the current IOTC relationship (Penney 1994)"}
-include_graphics("../outputs/charts/DESCRIPTION/SCATTERPLOTS/ALB_FL_RD_AREA.png")
+include_graphics("../outputs/charts/LMS/ALB_FL_RD_AREA_FIT_WITH_PENNEY.png")
 ```

@@ -18,7 +18,7 @@ AIC_TABLE_GAMS_FT
 
 \pagebreak
 
-```{r AnovaTableLM, tab.cap = "Summary table of analysis of variance of the round weight of Indian Ocean albacore for the best linear model selected based on the lowest AIC. df = degrees of freedom"}
+```{r AnovaTableBestLM, tab.cap = "Summary table of analysis of variance of the round weight of Indian Ocean albacore for the best linear model selected based on the lowest AIC. df = degrees of freedom"}
 ANOVA_TABLE_LM_ALB_FL_RD_ALL_FT
 ```
 
