@@ -22,7 +22,6 @@ p_load(
   "wellknown", 
   "rnaturalearth", 
   "MASS", 
-  "lubridate", 
   "maps", 
   "mapdata", 
   "lubridate", 
@@ -31,7 +30,9 @@ p_load(
   "randomForest",
   "patchwork", 
   "rpart",
-  "gratia"
+  "gratia", 
+  "ggfortify", 
+  "lindia"
   )
 
 # Set chart theme to theme_bw

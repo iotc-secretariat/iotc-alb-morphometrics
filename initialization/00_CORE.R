@@ -1,5 +1,6 @@
 # Avoid scientific notations
 options(scipen = 100)
+opar = par(no.readonly = TRUE)
 
 # Includes defaults and helper functions
 source("./91_LIBS_EXTERNAL.R")

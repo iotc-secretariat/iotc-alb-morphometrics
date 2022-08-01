@@ -19,11 +19,19 @@ LM_ALB_FL_RD_FULL = lm(log10RD ~ log10FL + SA_AREA_CODE + log10FL:SA_AREA_CODE +
 stepAIC(LM_ALB_FL_RD_FULL)
 
 # Final model
+# Remove fishery
 LM_ALB_FL_RD_ALL_FINAL = lm(log10RD ~ log10FL + SA_AREA_CODE + SEX + YEAR + MONTH + FLEET_CODE + log10FL:SA_AREA_CODE + log10FL:SEX, data = ALB_FL_RD)
+
+# Diagnostic plots
+windows()
+par(mfrow = c(2, 2), mar = c(4.1, 3.9, 1.3, 0.5))
+plot(LM_ALB_FL_RD_ALL_FINAL)
+savePlot("../outputs/charts/LMS/ALB_FL_RD_ALL_FINAL_DIAGNOSTIC.png", type = "png")
+
+LM_ALB_FL_RD_ALL_FINAL_DIAGNOSTICS = ggDiagnose(LM_ALB_FL_RD_ALL_FINAL)
 
 anova(LM_ALB_FL_RD_ALL_FINAL)
 ANOVA_TABLE_LM_ALB_FL_RD_ALL_FINAL =  anova_table(LM_ALB_FL_RD_ALL_FINAL)
-  
 summary(LM_ALB_FL_RD_ALL_FINAL)
 
 ANOVA_TABLE_LM_ALB_FL_RD_FINAL_FT = 
@@ -103,6 +111,24 @@ ALB_FL_RD_AREA_CURVES =
   theme(legend.position = "bottom", legend.title = element_blank())
 
 ggsave("../outputs/charts/FITS/ALB_FL_RD_AREA_CURVES.png", ALB_FL_RD_AREA_CURVES, width = 8, height = 4.5)
+
+## Diagnostic plots for area-based model
+
+#par(mfrow = c(2, 2))
+toto = gg_diagnose(LM_ALB_FL_RD_AREA, plot.all = FALSE)
+
+png("../outputs/charts/LMS/ALB_FL_RD_AREA_LM_DIAGNOSTIC.png")
+autoplot(LM_ALB_FL_RD_AREA, which = 1:4, nrow = 2, ncol = 2)
+dev.off()
+
+ALB_FL_RD_AREA_LM_DIAGNOSTIC = autoplot(LM_ALB_FL_RD_AREA, which = 1:4, nrow = 2, ncol = 2)
+
+toto = ALB_FL_RD_AREA_LM_DIAGNOSTIC[[1]] + ALB_FL_RD_AREA_LM_DIAGNOSTIC[[2]]
+
+ggsave("../outputs/charts/LMS/ALB_FL_RD_AREA_LM_DIAGNOSTIC.png", plot = toto, device = "png", width = 8, height = 4.5)
+
+ALB_FL_RD_AREA_LM_DIAGNOSTIC = lindia::gg_diagnose(LM_ALB_FL_RD_AREA, plot.all = FALSE)
+plot_all(ALB_FL_RD_AREA_LM_DIAGNOSTIC)
 
 # Matrix of weights for between areas for comparison purpose
 PREDICTION_TABLE_WEIGHT_AREA = dcast.data.table(PREDICTIONS_LM_AREA[, -c("log10FL")], FL ~ SA_AREA_CODE, value.var = "RD")[FL %in% seq(50, 130, 10)]
