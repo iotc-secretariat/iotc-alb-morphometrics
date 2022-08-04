@@ -1,9 +1,30 @@
-# Appendix: Diagnostic for the best selected models {#Diagnostics}
+# Appendix: Models diagnostics {#Diagnostics}
 
-```{r DiagnosticGAM5, fig.cap = "Diagnostic of the best selected generalized additive model of round weights (Eq. 5)"}
+## Generalized Additive Models
+
+```{r DiagnosticGAM5, fig.cap = "Diagnostic of the best selected generalized additive model of round weights (Eq. 5) of Indian Ocean albacore as selected from the lowest AIC"}
 include_graphics("../outputs/charts/GAMS/DIAGNOSTIC_GAM5.png")
 ```
 
-```{r DiagnosticLM, fig.cap = "Diagnostic of the best selected linear model of round weights", eval = FALSE}
-include_graphics("../outputs/charts/")
+\pagebreak
+
+## Linear models
+
+### Best selected model with all covariates except fishery
+
+```{r DiagnosticLMALL, fig.cap = "Diagnostic of the best selected linear regression model of round weights including all covariates (Eq. 6) except fishery as selected from the lowest AIC"}
+include_graphics("../outputs/charts/LMS/ALB_FL_RD_ALL_FINAL_DIAGNOSTIC.png")
 ```
+
+### Model with fork length and area
+
+```{r DiagnosticLMFLArea, fig.cap = "Diagnostic of the linear regression model of round weights of Indian Ocean albacore including only fork length (log10 transformed) and area as covariates"}
+include_graphics("../outputs/charts/LMS/ALB_FL_RD_AREA_LM_DIAGNOSTIC.png")
+```
+
+### Model with fork length
+
+```{r DiagnosticLMOnlyFL, fig.cap = "Diagnostic of the linear regression model of round weights of Indian Ocean albacore only including fork length (log10 transformed) as covariate"}
+include_graphics("../outputs/charts/LMS/ALB_FL_RD_UNIVARIATE_LM_DIAGNOSTIC.png")
+```
+

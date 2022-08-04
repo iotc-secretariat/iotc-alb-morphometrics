@@ -1,1 +1,5 @@
-# Discussion
+# Discussion & perspectives
+
+We collated a data set of almost half a million observations of fork length and round weight of Indian Ocean albacore spanning more than two decades and spreading across the fishing grounds of albacore fisheries over the whole Indian Ocean. Data were collected with different protocols and most measurements were made on fresh fish at sea on longliners. Little information is available on the tools used to measure weight but motion is known to affect the precision of weights measurements while data mining clearly indicated that some weight data were inconsistent and possibly visually estimated by the observers. Stricter rules could be adopted to filter the data regarding the large size of the data set in future analyses.
+
+Including random effects in the GAMs XX

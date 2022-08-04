@@ -35,11 +35,9 @@ Different models of increasing complexity were built and the best model was sele
 
 where _i_ indicates each fish and s() represents non-parametric smoothing terms. Model residuals $\epsilon$ were assumed to be independent and identically distributed following a random variable of Gaussian distribution with mean zero and constant variance. Model fitting and the automatic selection of degrees of freedom for the regression splines were performed using the generalized cross-validation method [@Wood2011]. Assumptions of homoscedasticity and Gaussian distribution were checked through the residuals.
 
-<!-- To reduce computation time regarding the size of the data set, a sub-sampling procedure was developed to limit the number of samples per stratum (i.e., year, month, fleet, and fishing area) to a maximum of 10. GAM analyses were then performed on a reduced data set of `r ALB_FL_RD_SUBSAMPLED[, .N]` samples that covered the same strata as the original data set. -->
+### Mean linear regression models
 
-### Mean regression models
-
-We used mean linear regression models to derive a univariate relationship for predicting round weight from observations of fork length and then assessed the influence of other factors on weight predictions. In addition to fork length (FL), we included the following categorical covariates in the model: gender (SEX), year of capture (YEAR), month of capture (MONTH), stock assessment area (AREA), fishery (FISHERY), and fishing fleet (FLEET). Interactions between sex and size, sex and area, and area and size were included in the model. The full model fitted to the morphometric data was:
+We used mean linear regression models to derive a univariate relationship for predicting round weight from observations of fork length and then assessed the influence of other factors on weight predictions. In addition to fork length (FL), we included the following categorical covariates in the model: gender (SEX), year of capture (YEAR), month of capture (MONTH), CPUE area (AREA), fishery (FISHERY), and fishing fleet (FLEET). Interactions between sex and size, sex and area, and area and size were included in the model. The full model fitted to the morphometric data was:
 
 \begin{equation}
 \log_{10}(RD_i) = \log_{10}(FL_i) + AREA + SEX + YEAR + FISHERY + MONTH + FLEET + \log_{10}(FL_i):SEX + AREA:log10FL + AREA:SEX + \epsilon_{i}
@@ -48,4 +46,4 @@ We used mean linear regression models to derive a univariate relationship for pr
 
 The model residuals $\epsilon_{i}$ were assumed to be independent and identically distributed normal random variables with mean zero and constant variance. We log10-transformed the variables to represent the assumption that measurement errors in weights are multiplicative. Predictions of the parameters accounted for bias due to log10-transformation [@Smith1993]. Assumptions of homoscedasticity and Gaussian distribution were checked through the residuals. The best model was selected from stepwise regression analysis based on the Akaike information criterion (AIC). Statistical analyses were performed in R version 4.1.0 (R Core Team, 2022). 
 
-### Impact on inputs for stock assessment
+<!-- ### Impact on inputs for stock assessment -->

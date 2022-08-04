@@ -61,7 +61,7 @@ pn = function(number, big.mark = ",") {
 ```{r child = "04_RESULTS.Rmd"}
 ```
 
-```{r child = "05_DISCUSSION.Rmd", eval = FALSE}
+```{r child = "05_DISCUSSION.Rmd"}
 ```
 
 ```{r child = "06_ACKNOWLEDGMENTS.Rmd", eval = FALSE}
@@ -82,7 +82,7 @@ pn = function(number, big.mark = ",") {
 ```{r child = "09_REFERENCES.Rmd"}
 ```
 
-\pagebreak
+<!-- \pagebreak -->
 
 ```{r child = "10_01_APPENDIX_1.Rmd"}
 ```
