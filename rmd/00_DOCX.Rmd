@@ -64,7 +64,7 @@ pn = function(number, big.mark = ",") {
 ```{r child = "05_DISCUSSION.Rmd"}
 ```
 
-```{r child = "06_ACKNOWLEDGMENTS.Rmd", eval = FALSE}
+```{r child = "06_ACKNOWLEDGMENTS.Rmd"}
 ```
 
 \pagebreak

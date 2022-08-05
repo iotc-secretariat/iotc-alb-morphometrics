@@ -19,22 +19,14 @@ LM_ALB_FL_RD_FULL = lm(log10RD ~ log10FL + SA_AREA_CODE + log10FL:SA_AREA_CODE +
 stepAIC(LM_ALB_FL_RD_FULL)
 
 # Final model
-# Remove fishery
 LM_ALB_FL_RD_ALL_FINAL = lm(log10RD ~ log10FL + SA_AREA_CODE + SEX + YEAR + MONTH + FLEET_CODE + log10FL:SA_AREA_CODE + log10FL:SEX, data = ALB_FL_RD)
 
 # Diagnostic plots
-## Diagnostic plots for area-based model
 png("../outputs/charts/LMS/ALB_FL_RD_ALL_FINAL_DIAGNOSTIC.png")
 autoplot(LM_ALB_FL_RD_ALL_FINAL, which = 1:4, nrow = 2, ncol = 2)
 dev.off()
 
-# windows()
-# par(mfrow = c(2, 2), mar = c(4.1, 3.9, 1.3, 0.5))
-# plot(LM_ALB_FL_RD_ALL_FINAL)
-# savePlot("../outputs/charts/LMS/ALB_FL_RD_ALL_FINAL_DIAGNOSTIC.png", type = "png")
-# 
-# LM_ALB_FL_RD_ALL_FINAL_DIAGNOSTICS = ggDiagnose(LM_ALB_FL_RD_ALL_FINAL)
-
+# Results
 anova(LM_ALB_FL_RD_ALL_FINAL)
 ANOVA_TABLE_LM_ALB_FL_RD_ALL_FINAL =  anova_table(LM_ALB_FL_RD_ALL_FINAL)
 summary(LM_ALB_FL_RD_ALL_FINAL)
@@ -51,11 +43,6 @@ ANOVA_TABLE_LM_ALB_FL_RD_ALL_FINAL_FT =
 # Model with fork length only ####
 LM_ALB_FL_RD = lm(log10RD ~ log10FL, data = ALB_FL_RD)
 
-# Diagnostic plots
-png("../outputs/charts/LMS/ALB_FL_RD_UNIVARIATE_LM_DIAGNOSTIC.png")
-autoplot(LM_ALB_FL_RD, which = 1:4, nrow = 2, ncol = 2)
-dev.off()
-
 BIAS_CORRECTION_FACTOR = exp(var(residuals(LM_ALB_FL_RD))*2.651)  # Smith 1993
 a_FL_RD = 10^coef(LM_ALB_FL_RD)[1] * BIAS_CORRECTION_FACTOR
 b_FL_RD         = coef(LM_ALB_FL_RD)[2]
@@ -65,12 +52,12 @@ PREDICTIONS_LM = data.table(FL = seq(50, 130, 0.1))
 PREDICTIONS_LM[, log10FL := log(FL, 10)]
 PREDICTIONS_LM[, OVERALL := round((10^predict.lm(LM_ALB_FL_RD, newdata = PREDICTIONS_LM)) * BIAS_CORRECTION_FACTOR, 2)]
 
-### Comparison with current relationships ####
+### Comparison with current relationship ####
 a_Penney = 0.0000137180
 b_Penney = 3.0973
 
-a_Kitakado =  0.0000069
-b_Kitakado =  3.2263499
+a_Kitakado = 0.0000069
+b_Kitakado = 3.2263499
 
 PREDICTIONS_LM[, PENNEY := round(a_Penney * FL^b_Penney, 2)][, log10FL := NULL]
 PREDICTIONS_LM[, KITAKADO := round(a_Kitakado * FL^b_Kitakado, 2)]
@@ -82,13 +69,12 @@ ggplot(PREDICTIONS_LM_MELTED, aes(x = FL, y = RD, color = SOURCE)) +
   labs(x = "Fork length (cm)", y = "Round weight (kg)") +
   theme(legend.position = "bottom", legend.title = element_blank())
 
-ggsave("../outputs/charts/LMS/ALB_FL_RD_CURVES.png", ALB_FL_RD_CURVES, width = 8, height = 4.5)
+ggsave("../outputs/charts/FITS/ALB_FL_RD_CURVES.png", ALB_FL_RD_CURVES, width = 8, height = 4.5)
 
 # Model with fork length and area ####
 LM_ALB_FL_RD_AREA = lm(log10RD ~ log10FL + SA_AREA_CODE, data = ALB_FL_RD)
 
 anova(LM_ALB_FL_RD_AREA)
-ANOVA_TABLE_LM_ALB_FL_RD_AREA =  anova_table(LM_ALB_FL_RD_AREA)
 summary(LM_ALB_FL_RD_AREA)
 
 BIAS_CORRECTION_FACTOR = exp(var(residuals(LM_ALB_FL_RD_AREA))*2.651)  # Smith 1993
@@ -132,11 +118,9 @@ png("../outputs/charts/LMS/ALB_FL_RD_AREA_LM_DIAGNOSTIC.png")
 autoplot(LM_ALB_FL_RD_AREA, which = 1:4, nrow = 2, ncol = 2)
 dev.off()
 
-#par(mfrow = c(2, 2))
-#toto = gg_diagnose(LM_ALB_FL_RD_AREA, plot.all = FALSE)
+#ALB_FL_RD_AREA_LM_DIAGNOSTIC = autoplot(LM_ALB_FL_RD_AREA, which = 1:4, nrow = 2, ncol = 2)
 #toto = ALB_FL_RD_AREA_LM_DIAGNOSTIC[[1]] + ALB_FL_RD_AREA_LM_DIAGNOSTIC[[2]]
 #ggsave("../outputs/charts/LMS/ALB_FL_RD_AREA_LM_DIAGNOSTIC.png", plot = toto, device = "png", width = 8, height = 4.5)
-
 #ALB_FL_RD_AREA_LM_DIAGNOSTIC = lindia::gg_diagnose(LM_ALB_FL_RD_AREA, plot.all = FALSE)
 #plot_all(ALB_FL_RD_AREA_LM_DIAGNOSTIC)
 
@@ -144,5 +128,20 @@ dev.off()
 PREDICTION_TABLE_WEIGHT_AREA = dcast.data.table(PREDICTIONS_LM_AREA[, -c("log10FL")], FL ~ SA_AREA_CODE, value.var = "RD")[FL %in% seq(50, 130, 10)]
 
 PREDICTION_TABLES_WEIGHT = merge(PREDICTIONS_LM, PREDICTION_TABLE_WEIGHT_AREA, by = "FL")
+
+PREDICTION_TABLES_WEIGHT_FT = 
+PREDICTION_TABLES_WEIGHT %>%
+  flextable() %>%
+  flextable::font(fontname = "calibri", part = c("all")) %>%
+  set_header_labels(values = list(
+    FL = "Fork length",
+    OVERALL = "This study",
+    PENNEY = "SA 2019", 
+    KITAKADO = "SA 2022"
+  )) %>%
+  align(part = "header", align = "center") %>%
+  border_inner() %>%
+  border_outer(border = fp_border(width = 2)) %>%
+  autofit()
 
 print("FL-RD model initialized!")

@@ -46,7 +46,7 @@ AIC_TABLE_GAMS_FT =
 # Model diagnostics
 DIAGNOSTIC_GAM5 = appraise(GAM5)
 
-ggsave("../outputs/charts/GAMS/DIAGNOSTIC_GAM5.png", DIAGNOSTIC_GAM5, width = 8, height = 6)
+#ggsave("../outputs/charts/GAMS/DIAGNOSTIC_GAM5.png", DIAGNOSTIC_GAM5, width = 8, height = 6)
 ggsave("../outputs/charts/GAMS/DIAGNOSTIC_GAM5.png", DIAGNOSTIC_GAM5, width = 12, height = 6/8*12)
 
 # Get predictions

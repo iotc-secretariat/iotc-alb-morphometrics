@@ -22,3 +22,8 @@ AIC_TABLE_GAMS_FT
 ANOVA_TABLE_LM_ALB_FL_RD_ALL_FINAL_FT
 ```
 
+\pagebreak
+
+```{r PredictionTable, tab.cap = "Weights (kg) predicted for a range of fork lengths (50-130 cm) based on the mean linear regression model fitted to all data with only fork length as covaruate (This study), the relationships used in the stock assessments (SA) performed in 2019 (Penney 1994) and 2022 (Kitakado et al. 2019), and the mean linear regression model including both fork length and areas used for CPUE analyses"}
+PREDICTION_TABLES_WEIGHT_FT
+```
