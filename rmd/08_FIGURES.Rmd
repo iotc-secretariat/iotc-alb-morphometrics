@@ -36,6 +36,6 @@ include_graphics("../outputs/charts/LMS/ALB_FL_RD_AREA_FIT.png")
 
 \pagebreak
 
-```{r LMOnlyFL, fig.cap = "Comparison of the relationships between fork length (cm) and round weight (kg) fitted to the overall data set (red solid line) with the relationship used in the stock assessment model in 2019 (green solid line) (Penney 1994) and 2022 (blue solid line) (Kitakado et al. 2019)"}
+```{r LMOnlyFL, fig.cap = paste0("Comparison of the relationships between fork length (cm) and round weight (kg) fitted to the overall data set considered in the present study (red solid line; n = ", prettyNum(ALB_FL_RD[, .N], big.mark = ","), "; fork length range = 51-130 cm) with the relationship used in the stock assessment model in 2019 (green solid line; n = 1,008; fork length range = 46-118 cm) (Penney 1994) and 2022 (blue solid line; n = 8,862; fork length range = 48-128 cm) (Kitakado et al. 2019). Solid lines represent models predictions for the ranges of fork lengths observed in the original data sets when dashed lines represent predictions outside the range of the independent variable data")}
 include_graphics("../outputs/charts/LMS/ALB_FL_RD_CURVES.png")
 ```

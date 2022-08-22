@@ -102,12 +102,12 @@ ggsave("../outputs/charts/GAMS/MOD_LONG_LAT_SEX_EFFECTS.png", LONG_LAT_SEX, widt
 
 ## PLOT.GAM | OPTION 2
 
-opar = par(no.readonly = TRUE)
-par(mfrow=c(4, 3), mar = c(4,2.5,1,1), cex.axis = 1.1, cex.lab = 1.1, oma = c(0,2,0,0))
-
-plot.gam(mod4, all.terms = TRUE, residuals = FALSE , xlab = "log(Fork length)", ylab = "", select = 1, shade = T, shade.col = alpha("red", 0.3), lwd=2, col = "red", xlim = c(4, 5), xaxs = 'i', ylim = c(-2, 2), rug = TRUE, las = 1, )
-abline(v = seq(4, 5, 0.2), lty = 1, col = alpha("grey", 0.5), lwd = 0.3)
-abline(h = seq(-2, 2, 1), lty = 1, col = alpha("grey", 0.5),lwd = 0.3)
+# opar = par(no.readonly = TRUE)
+# par(mfrow=c(4, 3), mar = c(4,2.5,1,1), cex.axis = 1.1, cex.lab = 1.1, oma = c(0,2,0,0))
+# 
+# plot.gam(mod4, all.terms = TRUE, residuals = FALSE , xlab = "log(Fork length)", ylab = "", select = 1, shade = T, shade.col = alpha("red", 0.3), lwd=2, col = "red", xlim = c(4, 5), xaxs = 'i', ylim = c(-2, 2), rug = TRUE, las = 1, )
+# abline(v = seq(4, 5, 0.2), lty = 1, col = alpha("grey", 0.5), lwd = 0.3)
+# abline(h = seq(-2, 2, 1), lty = 1, col = alpha("grey", 0.5),lwd = 0.3)
 #legend('topleft',legend='a',bty='n',cex=1.5)
 
 # Y-label
@@ -145,16 +145,16 @@ abline(h = seq(-2, 2, 1), lty = 1, col = alpha("grey", 0.5),lwd = 0.3)
 # savePlot("../outputs/charts/GAMS/EFFECT_logFLFemales.png", type = "png")
 
 # With random effects ####
-mod1re = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + s(rf, bs = "re"), data = ALB_FL_RD_SUBSAMPLED)
-
-mod2re = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + SEX + s(rf, bs = "re"), data = ALB_FL_RD_SUBSAMPLED)
-
-mod3re = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + s(rf, bs = "re"), data = ALB_FL_RD_SUBSAMPLED)
-
-mod4re = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6), by = SEX) + yrf + s(MONTH) + s(rf, bs = "re"), data = ALB_FL_RD_SUBSAMPLED)
-
-# Select best model based on AIC
-AIC(mod1re, mod2re, mod3re, mod4re)
+# mod1re = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + s(rf, bs = "re"), data = ALB_FL_RD_SUBSAMPLED)
+# 
+# mod2re = gam(logRD ~ s(logFL, k = 30) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + SEX + s(rf, bs = "re"), data = ALB_FL_RD_SUBSAMPLED)
+# 
+# mod3re = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6)) + yrf + s(MONTH) + s(rf, bs = "re"), data = ALB_FL_RD_SUBSAMPLED)
+# 
+# mod4re = gam(logRD ~ SEX + s(logFL, by = SEX) + te(LON_CENTROID, LAT_CENTROID, k = c(6, 6), by = SEX) + yrf + s(MONTH) + s(rf, bs = "re"), data = ALB_FL_RD_SUBSAMPLED)
+# 
+# # Select best model based on AIC
+# AIC(mod1re, mod2re, mod3re, mod4re)
 
 
 
