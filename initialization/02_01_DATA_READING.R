@@ -1,7 +1,7 @@
 print("Reading morphometric data...")
 
 # Morphometric data set
-unzip("../inputs/data/ALB_FORK_LENGTH_ROUND_WEIGHT_DATASET_CWP55.zip", exdir = "../inputs/data/")
+unzip("../inputs/data/ALB_FORK_LENGTH_ROUND_WEIGHT_DATASET_CWP55.zip", exdir = "../inputs/data")
 
 ALB_FL_RD_RAW = fread("../inputs/data/ALB_FORK_LENGTH_ROUND_WEIGHT_DATASET_CWP55.csv")
 
