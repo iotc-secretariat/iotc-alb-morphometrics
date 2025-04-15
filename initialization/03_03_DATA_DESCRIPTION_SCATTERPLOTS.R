@@ -1,4 +1,4 @@
-print("Initializing data description...")
+print("Initialising data description...")
 
 # SCATTERPLOTS ####
 
@@ -6,7 +6,7 @@ print("Initializing data description...")
 
 MORPHOMETRIC_DATA_ALB_FL_RD_DENSITY = 
   ggplot(ALB_FL_RD, aes(x = FL, y = RD)) +
-  stat_density_2d(aes(fill = ..level..), geom = "polygon", colour="white")  +
+  stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", colour="white")  +
   # stat_density_2d(aes(fill = ..density..), geom = "raster", contour = FALSE) +
   # scale_fill_distiller(palette=4, direction=1) +
   # scale_x_continuous(expand = c(0, 0)) +
@@ -122,4 +122,17 @@ ALB_LOGFL_LOGRD_FISHERY_GROUP_AREA_FACETED =
 
 ggsave("../outputs/charts/DESCRIPTION/SCATTERPLOTS/ALB_LOGFL_LOGRD_FISHERY_GROUP_AREA_FACETED.png", ALB_LOGFL_LOGRD_FISHERY_GROUP_AREA_FACETED, width = 8, height = 6)
 
-print("Data description initialized!")
+# Addition of raw data and published length-weight curves for illustration purpose
+# PUBLISHED_RD_PREDICTIONS available from 01_PARAMETERS_READING.R
+
+ALB_FL_RD__PUBLISHED_CURVES_LINEPLOT = 
+ggplot(ALB_FL_RD, aes(x = FL, y = RD)) +
+  geom_point(color = "black", alpha = 0.4, size = 0.6) +
+  geom_line(data = PUBLISHED_RD_PREDICTIONS, aes(x = FL, y = RD, color = SOURCE), linewidth = 0.8) + 
+  labs(x = "Fork length (cm)", y = "Round weight (kg)") +
+  theme_bw() +
+  theme(legend.position = "bottom", legend.title = element_blank())
+
+ggsave("../outputs/charts/DESCRIPTION/SCATTERPLOTS/ALB_FL_RD__PUBLISHED_CURVES_LINEPLOT.png", ALB_FL_RD__PUBLISHED_CURVES_LINEPLOT, width = 8, height = 6)
+
+print("Data description initialised!")

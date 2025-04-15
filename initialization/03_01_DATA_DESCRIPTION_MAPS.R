@@ -4,8 +4,8 @@ world_map = rnaturalearth::ne_countries(scale = "small", returnclass = c("sf"))
 # Base map ####
 BaseMap = 
   ggplot() +
-  geom_sf(data = world_map, size = .2, fill = "darkgrey", col = NA) +
-  theme(panel.grid.major = element_line(color = gray(0.9), linetype = "dashed", size = 0.5))
+  geom_sf(data = world_map, fill = "darkgrey", col = NA) + #size = .2, 
+  theme(panel.grid.major = element_line(color = gray(0.9), linetype = "dashed", linewidth = 0.5))
 
 # Map of samples ####
 ALB_FL_RD_AGG_GEO = ALB_FL_RD[!is.na(FISHING_GROUND_CODE), .N, keyby = .(FISHING_GROUND_CODE, GEOM_WKT, LON_CENTROID, LAT_CENTROID)]
@@ -45,7 +45,7 @@ map_sample_intensity = function(Dataset, FisheryGroupCode, FleetCode){
   theme_bw() + 
   geom_sf(data = world_map, size = .2, fill = "darkgrey", col = NA) +
   theme(panel.grid.major = element_line(color = gray(0.9), linetype = "dashed", size = 0.5)) + 
-  theme(legend.position = c(0.2, 0.11), legend.direction = "horizontal")
+  theme(legend.position.inside = c(0.2, 0.11), legend.direction = "horizontal")
   
   return(MAP_SAMPLES_INTENSITY)
 }
